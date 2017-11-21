@@ -17,20 +17,6 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/clear_top"
                     android:background="@color/colorPrimary"/>
-            <!--<LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-            >
-                <TextView
-                        style="@style/ListViewLabel"
-                        android:text="Have you ever had yellow jaundice (excluding at birth), hepatitis or liver disease?"
-                />
-                <it.sephiroth.android.library.widget.HListView
-                        android:id="@+id/yellow_jaundice"
-                        style="@style/ListViewStyle"
-                />
-            </LinearLayout>-->
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -59,7 +45,7 @@
             >
                 <TextView
                         style="@style/ListViewLabel"
-                        android:text="Have you ever been tested for HIV, Hepatitis or other test for an infectious agent?"
+                        android:text="Have you or your sexual partner ever tested positive for HIV, Hepatitis or Syphilis?"
                 />
                 <it.sephiroth.android.library.widget.HListView
                         android:id="@+id/been_tested_for_hiv"

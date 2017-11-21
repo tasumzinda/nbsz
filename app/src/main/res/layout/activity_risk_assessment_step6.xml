@@ -17,25 +17,7 @@
                     style="@style/TextViewInfo"
                     android:text="In the past 12 months"
             />
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/clear_top"
-                    android:background="@color/colorPrimary"/>
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-            >
-                <TextView
-                        style="@style/ListViewLabel"
-                        android:text="Have you been in a monogamous sexual relationship?"
-                />
-                <it.sephiroth.android.library.widget.HListView
-                        android:id="@+id/change_in_marital_status"
-                        style="@style/ListViewStyle"
-                />
-            </LinearLayout>
+
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -69,6 +51,25 @@
                 <it.sephiroth.android.library.widget.HListView
                         android:id="@+id/casual_sex"
                         style="@style/ListViewStyle"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/clear_top"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Have you been in contact with someone suffering from HepatitisB?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/change_in_marital_status"
+                        style="@style/ListViewStyle"
+                />
             </LinearLayout>
             <View
                     android:layout_width="match_parent"

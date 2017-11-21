@@ -61,7 +61,7 @@
             >
                 <TextView
                         style="@style/ListViewLabel"
-                        android:text="Have you or your sexual partner at an time since 2007 suffered from a sexually transmitted disease?"
+                        android:text="Have you or your sexual partner at any time since 2007 suffered from a sexually transmitted disease?"
                 />
                 <it.sephiroth.android.library.widget.HListView
                         android:id="@+id/suffered_from_std"
