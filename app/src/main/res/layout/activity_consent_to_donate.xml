@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/clear_top"
+                android:orientation="vertical">
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="ADVERSE REACTIONS"
+            />
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="While whole blood collection process is normally a pleasant experience, it is possible that short-term side effects can occur such as dizziness, skin irritation, nausea, vomiting, bruising, or fainting. Although remote, it is also possible that bruising around the vein, an infection or nerve damage can develop during or after phlebotomy, which is the process of drawing the blood. On very rare occasions, more severe reactions such as seizures can occur with more serious and long — term complications. Our staff is specially trained to respond to donor reactions. NBSZ works to prevent some of them by offering donor juice or water before and after donating blood."
+            />
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

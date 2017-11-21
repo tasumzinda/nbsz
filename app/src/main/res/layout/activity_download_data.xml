@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/clear_top"
+        >
+
+            <TextView
+                    style="@style/TextViewHeader"
+                    android:text="NATIONAL BLOOD SERVICE ZIMBABWE DONOR ENROLMENT AND ASSESSMENT FORM"/>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" app:srcCompat="@mipmap/logo"
+                    android:id="@+id/imageView"
+                    android:layout_marginTop="89dp"/>
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

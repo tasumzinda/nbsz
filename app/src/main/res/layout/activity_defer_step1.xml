@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/clear_top"
+                android:orientation="vertical">
+            <EditText
+                    android:id="@+id/defer_period"
+                    android:inputType="number"
+                    android:hint="How long do you want to defer the donation for (in months)?"
+                    style="@style/TextBoxStyle"/>
+            <EditText
+                    android:id="@+id/note"
+                    android:inputType="textMultiLine"
+                    android:hint="Additional Notes"
+                    style="@style/TextBoxStyle"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Why have you chosen to defer?"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginStart="@dimen/side_margin"
+                    android:layout_marginEnd="@dimen/side_margin"
+                    android:textSize="@dimen/text_size"
+            />
+            <ListView
+                    android:id="@+id/reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:divider="@android:color/transparent"
+                    android:layout_marginStart="@dimen/side_margin"
+                    android:layout_marginEnd="@dimen/side_margin"
+                    android:layout_weight="1"
+                    android:dividerHeight="10.0sp" />
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

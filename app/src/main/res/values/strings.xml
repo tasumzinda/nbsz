@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">NBSZ</string>
+    <string name="btn_save_label">Save</string>
+    <string name="btn_next_label">Next</string>
+    <string name="title_activity_donated_blood">DonatedBloodActivity</string>
+    <string name="required_field_error">Field is required</string>
+    <string name="authentication_error">The passcode you have entered is incorrect, please try again.</string>
+    <string name="under_age_error">Please wait until you have reached 16 years of age to donate blood</string>
+    <string name="date_format_error">Enter valid date in this format: 22/01/2016</string>
+    <string name="name_format_error">Field can only accept alphabetical characters</string>
+    <string name="item_exists">A donor with that ID number already exists</string>
+    <string name="prompt">--Select Item--</string>
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="no_camera_permission">This application cannot run because it does not have the camera permission. The
+        application will now exit.
+    </string>
+    <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="title_activity_main">Barcode Reader Sample</string>
+    <string name="barcode_header">Click &quot;Read Barcode&quot; to read a barcode</string>
+    <string name="read_barcode">Read Barcode</string>
+    <string name="auto_focus">Auto Focus</string>
+    <string name="use_flash">Use Flash</string>
+    <string name="barcode_success">Barcode read successfully</string>
+    <string name="barcode_failure">No barcode captured</string>
+    <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="title_activity_download_data">DownloadDataActivity</string>
+</resources>

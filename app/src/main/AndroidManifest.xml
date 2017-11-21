@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="zw.org.nbsz">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature
+            android:name="android.hardware.Camera"
+            android:required="true">
+    </uses-feature>
+
+    <application
+            android:name=".business.util.NSBZ"
+            android:allowBackup="true"
+            android:hardwareAccelerated="true"
+            android:icon="@mipmap/logo"
+            android:label="@string/app_name"
+            android:largeHeap="true"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+                android:name="AA_DB_VERSION"
+                android:value="1"/>
+        <meta-data
+                android:name="AA_DB_NAME"
+                android:value="nsbz.db"/>
+
+        <activity android:name=".activity.MainActivity">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+                android:name=".activity.DonatedBloodActivity"
+                android:label="@string/title_activity_donated_blood"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activity.BaseActivity">
+        </activity>
+        <activity android:name=".activity.DonorProfileActivity">
+        </activity>
+        <activity android:name=".activity.DonorAddContactDetailsActivity">
+        </activity>
+        <activity android:name=".activity.CounsellorDetailsActivity">
+        </activity>
+        <activity android:name=".activity.HealthAssessmentActivity">
+        </activity>
+        <activity android:name=".activity.HealthAssessmentStep2Activity">
+        </activity>
+        <activity android:name=".activity.HealthAssessmentStep3Activity">
+        </activity>
+        <activity android:name=".activity.HealthAssessmentStep4Activity">
+        </activity>
+        <activity android:name=".activity.HealthAssessmentStep5Activity">
+        </activity>
+        <activity android:name=".activity.RiskAssessmentActivity">
+        </activity>
+        <activity android:name=".activity.RiskAssessmentStep2Activity">
+        </activity>
+        <activity android:name=".activity.RiskAssessmentStep3Activity">
+        </activity>
+        <activity android:name=".activity.RiskAssessmentStep6Activity">
+        </activity>
+        <activity android:name=".activity.ConsentToDonateActivity">
+        </activity>
+        <activity android:name=".activity.AgeDeclarationActivity">
+        </activity>
+        <activity android:name=".activity.DeclarationStep2Activity">
+        </activity>
+        <activity android:name=".activity.DeclarationStep3Activity">
+        </activity>
+        <activity android:name=".activity.DeclarationStep4Activity">
+        </activity>
+        <activity android:name=".activity.DeclarationStep5Activity">
+        </activity>
+        <activity android:name=".activity.DeclarationStep6Activity">
+        </activity>
+        <activity android:name=".activity.DeclarationStep7Activity">
+        </activity>
+        <activity android:name=".activity.DeclarationFinalActivity">
+        </activity>
+        <activity android:name=".activity.DeferStep1">
+        </activity>
+        <activity android:name=".activity.DonorFinalActivity">
+        </activity>
+        <activity android:name=".activity.UserVerificationActivity">
+        </activity>
+        <activity android:name=".activity.NurseStep1Activity">
+        </activity>
+        <activity android:name=".activity.NurseStep2Activity">
+        </activity>
+        <activity android:name=".activity.NurseFinalActivity">
+        </activity>
+        <activity android:name=".activity.DonateStep1Activity">
+        </activity>
+        <activity android:name=".activity.ReasonForTestingActivity">
+        </activity>
+        <activity android:name=".activity.DonorDetailsActivity">
+        </activity>
+        <activity android:name=".activity.SearchDonorActivity">
+        </activity>
+        <activity android:name=".activity.ConsentToUpdateDetailsActivity">
+        </activity>
+        <activity android:name=".activity.AcknowledgeResponsesActivity">
+        </activity>
+
+        <service android:name=".business.rest.PushPullService"/>
+        <service android:name=".business.rest.DownloadDonor"/>
+        <service android:name=".business.rest.PushService"/>
+
+        <activity android:name=".activity.SelectUserActivity">
+        </activity>
+        <activity android:name=".activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.SelectCollectSiteActivity">
+        </activity>
+        <activity
+                android:name=".activity.DownloadDataActivity"
+                android:label="@string/title_activity_download_data"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activity.DonorListActivity">
+        </activity>
+        <activity android:name=".activity.DonorReviewActivity">
+        </activity>
+        <activity android:name=".activity.SearchDonorListActivity"/>
+    </application>
+
+</manifest>

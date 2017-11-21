@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/clear_top"
+                android:orientation="vertical">
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Please return this device to the nurse and she will guide you through the next steps"
+            />
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

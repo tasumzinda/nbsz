@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
+        >
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Are you feeling well and in good health today?"
+                    android:visibility="gone"
+                    android:id="@+id/feeling_well_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/feeling_well_today"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you ever been refused as a blood donor or told not to donate blood?"
+                    android:visibility="gone"
+                    android:id="@+id/refused_to_donate_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/refused_to_donate"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you been to a malaria area in the past 3 weeks?"
+                    android:visibility="gone"
+                    android:id="@+id/been_to_a_malaria_area_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/been_to_a_malaria_area"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="In the last 4 hours have you had a meal or a snack?"
+                    android:visibility="gone"
+                    android:id="@+id/meal_or_snack_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/meal_or_snack"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Are you involved in any activity/occupation that might endanger you or anyone else should you become light-headed or faint?"
+                    android:visibility="gone"
+                    android:id="@+id/dangerous_occupation_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/dangerous_occupation"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Rheumatic fever, chest pains, heart disease / surgery or stroke?"
+                    android:visibility="gone"
+                    android:id="@+id/rheumatic_fever_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/rheumatic_fever"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Lung disease, tuberclosis or ashtma?"
+                    android:visibility="gone"
+                    android:id="@+id/lung_disease_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/lung_disease"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Cancer, a blood disease, an abdominal bleeding disorder or a bleeding - gastric or duodenal ulcer?"
+                    android:visibility="gone"
+                    android:id="@+id/cancer_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/cancer"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Diabetes, thyroid disease, kidney disease, epilepsy(fits)?"
+                    android:visibility="gone"
+                    android:id="@+id/diabetes_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/diabetes"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Any other chronic medical condition?"
+                    android:visibility="gone"
+                    android:id="@+id/chronic_medical_condition_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/chronic_medical_condition"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you been to a dentist?"
+                    android:visibility="gone"
+                    android:id="@+id/been_to_dentist_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/been_to_dentist"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you taken antibiotics, aspirin, anti-flammatory medication or steroid drugs?"
+                    android:visibility="gone"
+                    android:id="@+id/taken_antibiotics_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/taken_antibiotics"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you had an injection, vaccination or inoculation?"
+                    android:visibility="gone"
+                    android:id="@+id/injection_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/injection"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you been ill or received treatment?"
+                    android:visibility="gone"
+                    android:id="@+id/been_ill_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/been_ill"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you or your sexual partner received a blood transfusion or treated with human or animal blood products or clotting factor?"
+                    android:visibility="gone"
+                    android:id="@+id/received_blood_transfusion_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/received_blood_transfusion"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you suffered from malaria?"
+                    android:visibility="gone"
+                    android:id="@+id/suffered_from_malaria_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/suffered_from_malaria"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you ever had yellow jaundice (excluding at birth), hepatitis or liver disease?"
+                    android:visibility="gone"
+                    android:id="@+id/yellow_jaundice_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/yellow_jaundice"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Is your reason for donating blood to undergo a HIV test?"
+                    android:visibility="gone"
+                    android:id="@+id/hiv_test_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/hiv_test"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you ever been tested for HIV?"
+                    android:visibility="gone"
+                    android:id="@+id/been_tested_for_hiv_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/been_tested_for_hiv"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you had household or sexual contact with a person with yellow jaundice?"
+                    android:visibility="gone"
+                    android:id="@+id/contact_yellow_jaundice_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/contact_yellow_jaundice"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you had an accidental exposure to blood or body fluids e.g. (needle stick injury) or have been a victim of assault e.g. stabbing in the last 6 months?"
+                    android:visibility="gone"
+                    android:id="@+id/accidental_exposure_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/accidental_exposure"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you been tattooed, had an ear or body piercing, acupuncture, circumcision, or scarification in the last 6 months?"
+                    android:visibility="gone"
+                    android:id="@+id/been_tattooed_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/been_tattooed"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you ever injected yourself or been injected with illegal or non-prescribed drugs; even a long time ago or even once?"
+                    android:visibility="gone"
+                    android:id="@+id/illegal_drugs_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/illegal_drugs"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you ever had casual oral or anal sex with someone whose background you do not know?"
+                    android:visibility="gone"
+                    android:id="@+id/sex_with_unknown_person_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/sex_with_unknown_person"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you ever exchanged money drugs  goods or favours in return for sex?"
+                    android:visibility="gone"
+                    android:id="@+id/exchanged_money_for_sex_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/exchanged_money_for_sex"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="If sexually active, do you think any of the above questions may be true for our sex partner?"
+                    android:visibility="gone"
+                    android:id="@+id/true_for_sex_partner_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/true_for_sex_partner"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you or your sexual partner at an time since 2002 suffered from a sexually transmitted disease?"
+                    android:visibility="gone"
+                    android:id="@+id/suffered_from_std_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/suffered_from_std"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Has there been a change in your marital status?"
+                    android:visibility="gone"
+                    android:id="@+id/change_in_marital_status_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/change_in_marital_status"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you or your sexual partner suffered from night sweats, unintentional weight loss, diarrhoea or swollen glands?"
+                    android:visibility="gone"
+                    android:id="@+id/suffered_from_night_sweats_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/suffered_from_night_sweats"/>
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="Have you been a victim of sexual abuse?"
+                    android:visibility="gone"
+                    android:id="@+id/victim_of_sexual_abuse_label"
+            />
+            <CheckBox
+                    android:text="OK. Please continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="gone"
+                    android:id="@+id/victim_of_sexual_abuse"/>
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

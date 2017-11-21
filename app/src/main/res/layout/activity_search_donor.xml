@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/clear_top"
+                android:orientation="vertical">
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search By:"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginStart="@dimen/side_margin"
+                    android:layout_marginEnd="@dimen/side_margin"
+                    android:textSize="@dimen/text_size"
+            />
+            <RadioGroup
+                    android:id="@+id/acknowledge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                <RadioButton
+                        android:id="@+id/donor_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size"
+                        android:text="Donor Number"/>
+
+                <RadioButton
+                        android:id="@+id/id_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size"
+                        android:text="ID Number" />
+                <RadioButton
+                        android:id="@+id/details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size"
+                        android:text="Name, Surname And Date Of Birth" />
+
+            </RadioGroup>
+            <EditText
+                    android:id="@+id/donor_number"
+                    android:inputType="phone"
+                    android:hint="Donor Number"
+                    android:visibility="gone"
+                    style="@style/TextBoxStyle"/>
+            <EditText
+                    android:id="@+id/id_number"
+                    android:inputType="text"
+                    android:hint="ID Number"
+                    android:visibility="gone"
+                    style="@style/TextBoxStyle"/>
+            <EditText
+                    android:id="@+id/first_name"
+                    android:inputType="text"
+                    android:hint="First Name"
+                    android:visibility="gone"
+                    style="@style/TextBoxStyle"/>
+            <EditText
+                    android:id="@+id/surname"
+                    android:inputType="text"
+                    android:hint="Surname"
+                    android:visibility="gone"
+                    style="@style/TextBoxStyle"/>
+            <EditText
+                    android:id="@+id/dob"
+                    android:inputType="text"
+                    android:hint="Date of Birth"
+                    android:visibility="gone"
+                    style="@style/TextBoxStyle"/>
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

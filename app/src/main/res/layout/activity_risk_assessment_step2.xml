@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/clear_top"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Have you ever injected yourself or been injected with non-prescribed drugs?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/illegal_drugs"
+                        style="@style/ListViewStyle"
+                />
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Exchanged money, drugs,  goods or favours in return for sex?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/exchanged_money_for_sex"
+                        style="@style/ListViewStyle"/>
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Have you or your sexual partner at an time since 2007 suffered from a sexually transmitted disease?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/suffered_from_std"
+                        style="@style/ListViewStyle"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Have you ever had Hepatitis (yellow jaundice) or been in contact with someone suffering from the disease in the past year?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/yellow_jaundice"
+                        style="@style/ListViewStyle"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Would your sexual partner/spouse answer yes to any of the above questions?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/true_for_sex_partner"
+                        style="@style/ListViewStyle"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

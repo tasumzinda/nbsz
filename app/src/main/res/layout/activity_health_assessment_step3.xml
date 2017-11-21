@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include layout="@layout/toolbar"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/clear_top"
+                android:orientation="vertical">
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="In the past 7 days"
+            />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/clear_top"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Have you been to a dentist for anything other than a routine check/hygiene?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/been_to_dentist"
+                        style="@style/ListViewStyle"
+                />
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+            >
+                <TextView
+                        style="@style/ListViewLabel"
+                        android:text="Have you taken antibiotics, aspirin, anti-inflammatory medication or steroid drugs?"
+                />
+                <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/taken_antibiotics"
+                        style="@style/ListViewStyle"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+            <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_save"
+                    style="@style/ButtonStyle"
+                    android:text="@string/btn_next_label"
+            />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
