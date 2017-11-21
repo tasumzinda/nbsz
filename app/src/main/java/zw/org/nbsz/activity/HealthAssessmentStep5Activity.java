@@ -130,7 +130,7 @@ public class HealthAssessmentStep5Activity extends BaseActivity implements View.
                 holder.pregnant = getPregnant();
                 holder.breastFeeding = getBreastFeeding();
             }
-            Intent intent = new Intent(this, RiskAssessmentActivity.class);
+            Intent intent = new Intent(this, ConsentToDonateActivity.class);
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
