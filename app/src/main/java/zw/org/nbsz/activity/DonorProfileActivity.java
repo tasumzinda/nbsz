@@ -106,7 +106,6 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
                     String lastName = surname.getText().toString().trim();
                     String dob = DateUtil.formatDate(DateUtil.getDateFromString(date));
                     List<Donor> list = Donor.findByFirstNameAndLastNameAndDateOfBirth(name.toUpperCase(), lastName.toUpperCase(), dob);
-                    Log.d("Result", AppUtil.createGson().toJson(list));
                     if(list.size() > 0){
                         Intent intent = new Intent(getApplicationContext(), SearchDonorListActivity.class);
                         intent.putExtra("firstName", name.toUpperCase());
@@ -115,7 +114,6 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
                         startActivity(intent);
                         finish();
                     }else{
-                        Log.d("Inside remote", "Test");
                         fetchRemote(this, name, lastName, dob);
                     }
 

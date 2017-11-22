@@ -152,7 +152,7 @@ public class DonorAddContactDetailsActivity extends BaseActivity implements View
     @Override
     public void onClick(View view) {
         if(validate()){
-            Intent intent = new Intent(this, CounsellorDetailsActivity.class);
+
             if(holder == null){
                 holder = Donor.findByDonorNumber(donorNumber);
             }
@@ -164,11 +164,22 @@ public class DonorAddContactDetailsActivity extends BaseActivity implements View
             holder.workTelephone = workTelephone.getText().toString();
             holder.cellphoneNumber = cellphoneNumber.getText().toString();
             holder.email = email.getText().toString();
-            intent.putExtra("holder", holder);
-            intent.putExtra("counsellor", counsellor);
-            intent.putExtra("donorNumber", donorNumber);
-            startActivity(intent);
-            finish();
+            if(getProfession().name.startsWith("STUDENT")){
+                Intent intent = new Intent(this, HealthAssessmentActivity.class);
+                intent.putExtra("holder", holder);
+                intent.putExtra("counsellor", counsellor);
+                intent.putExtra("donorNumber", donorNumber);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(this, CounsellorDetailsActivity.class);
+                intent.putExtra("holder", holder);
+                intent.putExtra("counsellor", counsellor);
+                intent.putExtra("donorNumber", donorNumber);
+                startActivity(intent);
+                finish();
+            }
+
         }
     }
 
