@@ -31,7 +31,7 @@ public class DeclarationStep5Activity extends BaseActivity implements View.OnCli
         acknowledge = (CheckBox) findViewById(R.id.acknowledge);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
-        setSupportActionBar(createToolBar("NSBZ - Consent To Donate > Declaration"));
+        setSupportActionBar(createToolBar("NBSZ - Consent To Donate > Declaration"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(donorNumber != null && ! donorNumber.isEmpty()){
             item = Donor.findByDonorNumber(donorNumber);

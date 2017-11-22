@@ -19,11 +19,7 @@
             <TextView
                     style="@style/TextViewHeader"
                     android:text="NATIONAL BLOOD SERVICE ZIMBABWE DONOR ENROLMENT AND ASSESSMENT FORM"/>
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" app:srcCompat="@mipmap/logo"
-                    android:id="@+id/imageView"
-                    android:layout_marginTop="89dp"/>
+            
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

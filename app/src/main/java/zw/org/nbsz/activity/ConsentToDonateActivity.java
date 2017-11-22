@@ -38,7 +38,7 @@ public class ConsentToDonateActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(this, RiskAssessmentStep6Activity.class);
+        Intent intent = new Intent(this, HealthAssessmentStep5Activity.class);
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);

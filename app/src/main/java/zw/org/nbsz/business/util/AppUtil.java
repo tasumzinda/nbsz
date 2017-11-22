@@ -38,7 +38,7 @@ public class AppUtil {
     public static String USERNAME = "USERNAME";
     public static String PASSWORD = "PASSWORD";
     //public static String BASE_URL = "http://196.2.73.10:8084/nbsz-mobile/rest/mobile/";
-    public static String BASE_URL = "http://192.168.1.144:8084/nbsz-mobile/rest/mobile/";
+    public static String BASE_URL = "http://192.168.4.27:8084/nbsz-mobile/rest/mobile/";
     public static String NAME = "NAME";
     private static AppUtil appInstance;
     private static Context mContext;
