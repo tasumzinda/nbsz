@@ -173,13 +173,13 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         }
-        String name = firstName.getText().toString();
+        /*String name = firstName.getText().toString();
         if( ! validateStrings(name)){
             firstName.setError(getResources().getString(R.string.name_format_error));
             isValid = false;
         }else{
             firstName.setError(null);
-        }
+        }*/
         String lastName = surname.getText().toString();
         if( ! validateStrings(lastName)){
             surname.setError(getResources().getString(R.string.name_format_error));
