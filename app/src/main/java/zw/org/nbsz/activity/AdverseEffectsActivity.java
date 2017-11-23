@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Donor;
+import zw.org.nbsz.business.domain.DonorSpecialNotesContract;
 import zw.org.nbsz.business.domain.SpecialNotes;
 import zw.org.nbsz.business.util.AppUtil;
 import zw.org.nbsz.business.util.Log;
@@ -41,7 +42,15 @@ public class AdverseEffectsActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-
+        if(getSpecialNotes().size() > 0){
+            for(int i = 0; i < getSpecialNotes().size(); i++){
+                DonorSpecialNotesContract item = new DonorSpecialNotesContract();
+                item.specialNotes = getSpecialNotes().get(i);
+                item.donor = Donor.findById(id);
+                item.save();
+                Log.d("Saved special", AppUtil.createGson().toJson(item));
+            }
+        }
     }
 
     @Override
