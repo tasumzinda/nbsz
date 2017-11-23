@@ -126,8 +126,8 @@ public class DonationStats extends Model implements Serializable{
     public YesNo sufferedFromSTD;
 
     @Expose
-    @Column(name = "change_in_marital_status")
-    public YesNoNA monogamousRelationship;
+    @Column(name = "contact_with_person_with_hepatitisB")
+    public YesNo contactWithPersonWithHepatitisB;
 
     @Expose
     @Column(name = "suffered_from_night_sweats")

@@ -31,6 +31,8 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
     private TextView period;
     private TextView notesLabel;
     private TextView notes;
+    private TextView bloodGroup;
+    private TextView numDonations;
     private Donor donor;
     private String donorNumber;
     private Donor item;
@@ -46,6 +48,8 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
         dateOfBirth = (TextView) findViewById(R.id.date_of_birth);
         donorNum = (TextView) findViewById(R.id.donor_number);
         lastDonation = (TextView) findViewById(R.id.last_donation);
+        bloodGroup = (TextView) findViewById(R.id.blood_group);
+        numDonations = (TextView) findViewById(R.id.num_donations);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
         lastBloodDonationLabel = (TextView) findViewById(R.id.last_donation_label);
@@ -62,6 +66,8 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
         surname.setText(donor.surname);
         idNumber.setText(donor.idNumber);
         donorNum.setText(donor.donorNumber);
+        bloodGroup.setText(donor.bloodGroup != null ? donor.bloodGroup : "");
+        numDonations.setText(donor.numberOfDonations != null ? String.valueOf(donor.numberOfDonations) : "");
         gender.setText(donor.gender != null ? donor.gender.getName() : "");
         dateOfBirth.setText(DateUtil.getStringFromDate(donor.dateOfBirth));
         int waitingPeriod = 0;

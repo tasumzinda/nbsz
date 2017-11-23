@@ -71,14 +71,14 @@ public class PushPullService extends IntentService {
                 ex.printStackTrace();
                 result = Activity.RESULT_CANCELED;
             }
-            /*try{
+            try{
                 if(url.equals(AppUtil.getBankStaffUrl(context))){
                     loadBankStaff(AppUtil.run(url, context));
                 }
             }catch (IOException ex){
                 ex.printStackTrace();
                 result = Activity.RESULT_CANCELED;
-            }*/
+            }
             try{
                 if(url.equals(AppUtil.getCollectSiteUrl(context))){
                     loadCollectSites(AppUtil.run(url, context));

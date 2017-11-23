@@ -17,20 +17,10 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/clear_top"
                     android:background="@color/colorPrimary"/>
-            <!--<LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-            >
-                <TextView
-                        style="@style/ListViewLabel"
-                        android:text="Have you had household or sexual contact with a person with yellow jaundice?"
-                />
-                <it.sephiroth.android.library.widget.HListView
-                        android:id="@+id/yellow_jaundice"
-                        style="@style/ListViewStyle"
-                />
-            </LinearLayout>-->
+            <TextView
+                    style="@style/TextViewInfo"
+                    android:text="In the past 6 months"
+            />
             <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

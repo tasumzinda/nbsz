@@ -14,6 +14,26 @@
                 android:orientation="vertical"
                 android:layout_marginTop="40dp"
         >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Donation Type"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginStart="@dimen/side_margin"
+                    android:layout_marginEnd="@dimen/side_margin"
+                    android:textSize="@dimen/text_size"
+            />
+            <Spinner
+                    android:id="@+id/donation_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="@dimen/side_margin"
+                    android:layout_marginEnd="@dimen/side_margin"
+                    android:prompt="@string/prompt"
+            />
 
             <TextView
                     style="@style/TextViewInfo"

@@ -244,7 +244,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
                 sufferedFromSTDLabel.setVisibility(View.VISIBLE);
                 sufferedFromSTD.setVisibility(View.VISIBLE);
             }
-            if(holder.monogamousRelationship.equals(YesNo.YES)){
+            if(holder.contactWithPersonWithHepatitisB.equals(YesNo.YES)){
                 monogamousRelationshipLabel.setVisibility(View.VISIBLE);
                 monogamousRelationship.setVisibility(View.VISIBLE);
             }
@@ -357,7 +357,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
                 sufferedFromSTDLabel.setVisibility(View.VISIBLE);
                 sufferedFromSTD.setVisibility(View.VISIBLE);
             }
-            if(holder.monogamousRelationship.equals(YesNo.YES)){
+            if(holder.contactWithPersonWithHepatitisB.equals(YesNo.YES)){
                 monogamousRelationshipLabel.setVisibility(View.VISIBLE);
                 monogamousRelationship.setVisibility(View.VISIBLE);
             }
@@ -389,7 +389,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
     }
 
     public void onBackPressed(){
-        Intent intent = new Intent(this, UserVerificationActivity.class);
+        Intent intent = new Intent(this, RiskAssessmentStep6Activity.class);
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);

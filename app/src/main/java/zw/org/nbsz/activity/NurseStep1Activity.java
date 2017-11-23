@@ -14,6 +14,7 @@ import zw.org.nbsz.business.domain.Counsellor;
 import zw.org.nbsz.business.domain.DonationType;
 import zw.org.nbsz.business.domain.Donor;
 import zw.org.nbsz.business.domain.util.DonateDefer;
+import zw.org.nbsz.business.domain.util.PackType;
 import zw.org.nbsz.business.domain.util.PassFail;
 import zw.org.nbsz.business.domain.util.YesNo;
 import zw.org.nbsz.business.util.AppUtil;
@@ -22,26 +23,24 @@ import zw.org.nbsz.business.util.Log;
 public class NurseStep1Activity extends BaseActivity implements View.OnClickListener {
 
     private ListView copperSulphate;
-    @BindView(R.id.donor_number)
-    EditText donorNumber;
     @BindView(R.id.weight)
     EditText weight;
     @BindView(R.id.blood_group)
     EditText bloodGroup;
     @BindView(R.id.btn_save)
     Button next;
-    @BindView(R.id.donation_type)
-    Spinner donationType;
     private Donor holder;
     private Counsellor counsellor;
     private ArrayAdapter<PassFail> passFailArrayAdapter;
-    private ArrayAdapter<DonationType> donationTypeArrayAdapter;
+    private ArrayAdapter<PackType> packTypeArrayAdapter;
     private String donorNum;
     private Donor item;
     @BindView(R.id.blood_pressure_top)
     EditText bloodPressureTop;
     @BindView(R.id.blood_pressure_bottom)
     EditText bloodPressureBottom;
+    private ListView packType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,30 +50,22 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
         Intent intent = getIntent();
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
+        packType = (ListView) findViewById(R.id.pack_type);
+        next.setOnClickListener(this);
         donorNum = intent.getStringExtra("donorNumber");
         copperSulphate = (ListView) findViewById(R.id.copper_sulphate);
-        bloodPressureTop = (EditText) findViewById(R.id.blood_pressure_top);
-        bloodPressureBottom = (EditText) findViewById(R.id.blood_pressure_bottom);
-        donorNumber = (EditText) findViewById(R.id.donor_number);
-        donorNumber.setOnClickListener(this);
-        weight = (EditText) findViewById(R.id.weight);
-        donationType = (Spinner) findViewById(R.id.donation_type);
-        next = (Button) findViewById(R.id.btn_save);
-        next.setOnClickListener(this);
         passFailArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, PassFail.values());
         copperSulphate.setAdapter(passFailArrayAdapter);
         copperSulphate.setItemsCanFocus(false);
         copperSulphate.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         passFailArrayAdapter.notifyDataSetChanged();
-        donationTypeArrayAdapter = new ArrayAdapter<>(this, R.layout.simple_spinner_item, DonationType.getAll());
-        donationTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        donationType.setAdapter(donationTypeArrayAdapter);
-        donationTypeArrayAdapter.notifyDataSetChanged();
+        packTypeArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, PackType.values());
+        packType.setAdapter(packTypeArrayAdapter);
+        packType.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        packType.setItemsCanFocus(false);
+        packTypeArrayAdapter.notifyDataSetChanged();
         if(donorNum != null && ! donorNum.isEmpty() && holder.weight != null){
             item = Donor.findByDonorNumber(donorNum);
-            if(holder.donationNumber != null){
-                donorNumber.setText(String.valueOf(holder.donationNumber));
-            }
             weight.setText(String.valueOf(holder.weight));
             String pressure = holder.bloodPressure;
             String[] values = pressure.split("/");
@@ -90,18 +81,15 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
                 }
             }
 
-            int i = 0;
-            for(DonationType d : DonationType.getAll()){
-                if(holder.donationTypeId != null && holder.donationTypeId.equals(((DonationType) donationType.getSelectedItem()).serverId)){
-                    donationType.setSelection(i, true);
-                    break;
+            PackType d = holder.packType;
+            count = packTypeArrayAdapter.getCount();
+            for(int k = 0; k < count; k++){
+                PackType current = packTypeArrayAdapter.getItem(k);
+                if(current.equals(d)){
+                    packType.setItemChecked(k, true);
                 }
-                i++;
             }
         }else if(holder.weight != null){
-            if(holder.donationNumber != null){
-                donorNumber.setText(String.valueOf(holder.donationNumber));
-            }
             weight.setText(String.valueOf(holder.weight));
             String pressure = holder.bloodPressure;
             String[] values = pressure.split("/");
@@ -116,14 +104,13 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
                     copperSulphate.setItemChecked(i, true);
                 }
             }
-
-            int i = 0;
-            for(DonationType d : DonationType.getAll()){
-                if(holder.donationTypeId != null && holder.donationTypeId.equals(((DonationType) donationType.getSelectedItem()).serverId)){
-                    donationType.setSelection(i, true);
-                    break;
+            PackType d = holder.packType;
+            count = packTypeArrayAdapter.getCount();
+            for(int k = 0; k < count; k++){
+                PackType current = packTypeArrayAdapter.getItem(k);
+                if(current.equals(d)){
+                    packType.setItemChecked(k, true);
                 }
-                i++;
             }
         }else {
             item = new Donor();
@@ -134,20 +121,13 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == donorNumber.getId()){
-            IntentIntegrator scanner = new IntentIntegrator(this);
-            scanner.initiateScan();
-        }
         if(view.getId() == next.getId()){
             if(validate()){
-                if( ! donorNumber.getText().toString().isEmpty()){
-                    holder.donationNumber = donorNumber.getText().toString();
-                }
                 holder.weight = Double.parseDouble(weight.getText().toString());
                 String pressure = bloodPressureTop.getText().toString() + "/" + bloodPressureBottom.getText().toString();
                 holder.bloodPressure = pressure;
                 holder.copperSulphate = getCopperSulphate();
-                holder.donationTypeId = ((DonationType) donationType.getSelectedItem()).serverId;
+                holder.packType = getPackType();
                 holder.bloodGroup = bloodGroup.getText().toString();
                 Intent intent = new Intent(this, NurseStep2Activity.class);
                 intent.putExtra("holder", holder);
@@ -161,22 +141,8 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
 
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if(scanningResult != null){
-            String scanContent = scanningResult.getContents();
-            donorNumber.setText(scanContent);
-        }else{
-            AppUtil.createShortNotification(this, "No data retrieved");
-        }
-    }
-
-
     @Override
     public void onBackPressed(){
-        if( ! donorNumber.getText().toString().isEmpty()){
-            holder.donationNumber = donorNumber.getText().toString();
-        }
         if(! weight.getText().toString().isEmpty()){
             holder.weight = Double.parseDouble(weight.getText().toString());
         }
@@ -186,7 +152,7 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
         }
         holder.bloodGroup = bloodGroup.getText().toString();
         holder.copperSulphate = getCopperSulphate();
-        holder.donationTypeId = ((DonationType) donationType.getSelectedItem()).serverId;
+        holder.packType = getPackType();
         Intent intent = new Intent(this, DeclarationFinalActivity.class);
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
@@ -234,6 +200,12 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
             AppUtil.createShortNotification(this, "Sorry, this response is required");
             isValid = false;
         }
+
+        if(packType.getCheckedItemCount() == 0){
+            AppUtil.createShortNotification(this, "Sorry, this response is required");
+            isValid = false;
+        }
+
         if(bloodGroup.getText().toString().isEmpty()){
             bloodGroup.setError(getResources().getString(R.string.required_field_error));
             isValid = false;
@@ -251,5 +223,15 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
             }
         }
         return a;
+    }
+
+    private PackType getPackType(){
+        PackType item = null;
+        for(int i = 0; i < packType.getCount(); i++){
+            if(packType.isItemChecked(i)){
+                item = packTypeArrayAdapter.getItem(i);
+            }
+        }
+        return item;
     }
 }

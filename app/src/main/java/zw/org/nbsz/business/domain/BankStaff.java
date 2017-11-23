@@ -48,6 +48,12 @@ public class BankStaff extends Model implements Serializable {
                 .executeSingle();
     }
 
+    public static List<BankStaff> getAll(){
+        return new Select()
+                .from(BankStaff.class)
+                .execute();
+    }
+
     public static BankStaff fromJSON(JSONObject object){
         BankStaff item = new BankStaff();
         try{

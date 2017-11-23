@@ -162,10 +162,12 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
             item.dob = DateUtil.formatDate(holder.dateOfBirth);
         }
         if(holder.userId != null){
+            /*Log.d("BankStaff", "ID:" + AppUtil.createGson().toJson(BankStaff.findById(this.holder.userId)));
             String[] arrayOfString = BankStaff.findById(this.holder.userId).name.split(" ");
             String str = arrayOfString[1] + " " + arrayOfString[0];
             this.item.bledBy = User.findByName(str);
-            Log.d("User", AppUtil.createGson().toJson(this.item.bledBy));
+            Log.d("User", AppUtil.createGson().toJson(this.item.bledBy));*/
+            item.bledBy = User.findById(holder.userId);
         }
         if(holder.email != null){
             item.email = holder.email;
@@ -252,7 +254,7 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         DonationStats stats = new DonationStats();
         stats.victimOfSexualAbuse = holder.victimOfSexualAbuse;
         stats.sufferedFromNightSweats = holder.sufferedFromNightSweats;
-        stats.monogamousRelationship = holder.monogamousRelationship;
+        stats.contactWithPersonWithHepatitisB = holder.contactWithPersonWithHepatitisB;
         stats.sufferedFromSTD = holder.sufferedFromSTD;
         stats.trueForSexPartner = holder.trueForSexPartner;
         stats.exchangedMoneyForSex = holder.exchangedMoneyForSex;

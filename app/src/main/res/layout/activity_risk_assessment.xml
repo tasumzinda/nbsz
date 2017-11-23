@@ -45,10 +45,10 @@
             >
                 <TextView
                         style="@style/ListViewLabel"
-                        android:text="Have you or your sexual partner ever tested positive for HIV, Hepatitis or Syphilis?"
+                        android:text="Have you or your sexual partner ever tested positive for HIV, HepatitisB or Syphilis?"
                 />
                 <it.sephiroth.android.library.widget.HListView
-                        android:id="@+id/been_tested_for_hiv"
+                        android:id="@+id/tested_positive"
                         style="@style/ListViewStyle"/>
             </LinearLayout>
             <View

@@ -44,29 +44,12 @@ public class UserVerificationActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         if(validate()){
-            if(holder.feelingWellToday.equals(YesNo.NO) || holder.refusedToDonate.equals(YesNo.YES) || holder.beenToMalariaArea.equals(YesNo.YES)
-                    || holder.mealOrSnack.equals(YesNo.NO) || holder.dangerousOccupation.equals(YesNo.YES) || holder.rheumaticFever.equals(YesNo.YES)
-                    || holder.lungDisease.equals(YesNo.YES) || holder.cancer.equals(YesNo.YES) || holder.diabetes.equals(YesNo.YES)
-                    || holder.chronicMedicalCondition.equals(YesNo.YES) || holder.beenToDentist.equals(YesNo.YES) || holder.takenAntibiotics.equals(YesNo.YES)
-                    || holder.receivedBloodTransfusion.equals(YesNo.YES)
-                    || holder.hivTest.equals(YesNo.YES) || holder.beenTestedForHiv.equals(YesNo.YES) || holder.contactWithPersonWithYellowJaundice.equals(YesNo.YES)
-                    || holder.accidentalExposureToBlood.equals(YesNo.YES) || holder.beenTattooedOrPierced.equals(YesNo.YES) || holder.sexWithSomeoneWithUnknownBackground.equals(YesNo.YES)
-                    || holder.exchangedMoneyForSex.equals(YesNo.YES) || holder.trueForSexPartner.equals(YesNo.YES) || holder.sufferedFromSTD.equals(YesNo.YES) || holder.monogamousRelationship.equals(YesNo.YES)
-                    || holder.sufferedFromNightSweats.equals(YesNo.YES) || holder.victimOfSexualAbuse.equals(YesNo.YES)){
-                Intent intent = new Intent(this, AcknowledgeResponsesActivity.class);
-                intent.putExtra("holder", holder);
-                intent.putExtra("counsellor", counsellor);
-                intent.putExtra("donorNumber", donorNumber);
-                startActivity(intent);
-                finish();
-            }else{
-                Intent intent = new Intent(this, DeclarationFinalActivity.class);
-                intent.putExtra("holder", holder);
-                intent.putExtra("counsellor", counsellor);
-                intent.putExtra("donorNumber", donorNumber);
-                startActivity(intent);
-                finish();
-            }
+            Intent intent = new Intent(this, RiskAssessmentActivity.class);
+            intent.putExtra("holder", holder);
+            intent.putExtra("counsellor", counsellor);
+            intent.putExtra("donorNumber", donorNumber);
+            startActivity(intent);
+            finish();
 
         }
     }

@@ -16,7 +16,7 @@ import zw.org.nbsz.business.domain.util.YesNo;
 public class RiskAssessmentActivity extends BaseActivity implements View.OnClickListener {
 
     private HListView hivTest;
-    private HListView beenTestedForHiv;
+    private HListView testedPositive;
     private Button next;
     private Donor holder;
     private Counsellor counsellor;
@@ -34,17 +34,17 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
         hivTest = (HListView) findViewById(R.id.hiv_test);
-        beenTestedForHiv = (HListView) findViewById(R.id.been_tested_for_hiv);
+        testedPositive = (HListView) findViewById(R.id.tested_positive);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
-        fields = new HListView[]{hivTest, beenTestedForHiv};
+        fields = new HListView[]{hivTest, testedPositive};
         adapter = new ArrayAdapter<>(this, R.layout.check_box_item, YesNo.values());
         hivTest.setAdapter(adapter);
         hivTest.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         hivTest.setItemsCanFocus(false);
-        beenTestedForHiv.setAdapter(adapter);
-        beenTestedForHiv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        beenTestedForHiv.setItemsCanFocus(false);
+        testedPositive.setAdapter(adapter);
+        testedPositive.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        testedPositive.setItemsCanFocus(false);
         adapter.notifyDataSetChanged();
         setSupportActionBar(createToolBar("NBSZ - SECTION B"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,7 +62,7 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
             for(int i = 0; i < count; i++){
                 YesNo current = adapter.getItem(i);
                 if(current.equals(item)){
-                    beenTestedForHiv.setItemChecked(i, true);
+                    testedPositive.setItemChecked(i, true);
                 }
             }
         }else if(holder.hivTest != null){
@@ -78,7 +78,7 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
             for(int i = 0; i < count; i++){
                 YesNo current = adapter.getItem(i);
                 if(current.equals(item)){
-                    beenTestedForHiv.setItemChecked(i, true);
+                    testedPositive.setItemChecked(i, true);
                 }
             }
         }else{
@@ -91,23 +91,13 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
         if(validateListView(fields)){
             holder.hivTest = getHivTest();
             holder.beenTestedForHiv = getBeenTestedForHiv();
-            Intent intent;
-            if(getBeenTestedForHiv().equals(YesNo.YES)){
-                intent = new Intent(this, ReasonForTestingActivity.class);
-                intent.putExtra("holder", holder);
-                intent.putExtra("counsellor", counsellor);
-                intent.putExtra("donorNumber", donorNumber);
-                startActivity(intent);
-                finish();
-            }else{
-                intent = new Intent(this, RiskAssessmentStep2Activity.class);
-                holder.reasonForTesting = null;
-                intent.putExtra("holder", holder);
-                intent.putExtra("counsellor", counsellor);
-                intent.putExtra("donorNumber", donorNumber);
-                startActivity(intent);
-                finish();
-            }
+            Intent intent = new Intent(this, RiskAssessmentStep2Activity.class);
+            holder.reasonForTesting = null;
+            intent.putExtra("holder", holder);
+            intent.putExtra("counsellor", counsellor);
+            intent.putExtra("donorNumber", donorNumber);
+            startActivity(intent);
+            finish();
 
         }
 
@@ -117,7 +107,7 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
     public void onBackPressed(){
         holder.hivTest = getHivTest();
         holder.beenTestedForHiv = getBeenTestedForHiv();
-        Intent intent = new Intent(this, HealthAssessmentStep5Activity.class);
+        Intent intent = new Intent(this, UserVerificationActivity.class);
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
@@ -147,8 +137,8 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
 
     private YesNo getBeenTestedForHiv(){
         YesNo a = null;
-        for(int i = 0; i < beenTestedForHiv.getCount(); i++){
-            if(beenTestedForHiv.isItemChecked(i)){
+        for(int i = 0; i < testedPositive.getCount(); i++){
+            if(testedPositive.isItemChecked(i)){
                 a = adapter.getItem(i);
             }
         }

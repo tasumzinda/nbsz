@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Counsellor;
 import zw.org.nbsz.business.domain.Donor;
@@ -22,8 +26,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
 
     private ListView hamocue;
     private ListView bledBy;
-    private ListView packType;
-    private ListView specialNotes;
+    //private ListView specialNotes;
     private Button next;
     private Donor holder;
     private Counsellor counsellor;
@@ -31,14 +34,16 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
     private String donorNumber;
     private Donor item;
     private ArrayAdapter<PassFail> passFailArrayAdapter;
-    private ArrayAdapter<PackType> packTypeArrayAdapter;
     private ArrayAdapter<User> userArrayAdapter;
     private TextView hamocueLabel;
+    @BindView(R.id.donor_number)
+    EditText donationNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nurse_step2);
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
@@ -46,25 +51,20 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
         hamocue = (ListView) findViewById(R.id.hamocue);
         hamocueLabel = (TextView) findViewById(R.id.hamocue_label);
         bledBy = (ListView) findViewById(R.id.bled_by);
-        packType = (ListView) findViewById(R.id.pack_type);
-        specialNotes = (ListView) findViewById(R.id.list);
+        //specialNotes = (ListView) findViewById(R.id.list);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
+        donationNumber.setOnClickListener(this);
         adapter = new ArrayAdapter<>(this, R.layout.check_box_item, SpecialNotes.getAll());
         passFailArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, PassFail.values());
         hamocue.setAdapter(passFailArrayAdapter);
         hamocue.setItemsCanFocus(false);
         hamocue.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         passFailArrayAdapter.notifyDataSetChanged();
-        packTypeArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, PackType.values());
-        packType.setAdapter(packTypeArrayAdapter);
-        packType.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        packType.setItemsCanFocus(false);
-        packTypeArrayAdapter.notifyDataSetChanged();
-        specialNotes.setAdapter(adapter);
+        //specialNotes.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        specialNotes.setItemsCanFocus(false);
-        specialNotes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        /*specialNotes.setItemsCanFocus(false);
+        specialNotes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);*/
         userArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, User.getActive());
         bledBy.setAdapter(userArrayAdapter);
         bledBy.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -82,12 +82,12 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
                 list1.add(s.name);
             }
             int count = adapter.getCount();
-            for(int i = 0; i < count; i++){
+            /*for(int i = 0; i < count; i++){
                 SpecialNotes current = adapter.getItem(i);
                 if(list1.contains(current.name)){
                     specialNotes.setItemChecked(i, true);
                 }
-            }
+            }*/
 
             count = userArrayAdapter.getCount();
             if(holder.userId != null){
@@ -107,27 +107,23 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
                     hamocue.setItemChecked(k, true);
                 }
             }
-            PackType d = holder.packType;
-            count = packTypeArrayAdapter.getCount();
-            for(int k = 0; k < count; k++){
-                PackType current = packTypeArrayAdapter.getItem(k);
-                if(current.equals(d)){
-                    packType.setItemChecked(k, true);
-                }
+
+            if(holder.donationNumber != null){
+                donationNumber.setText(String.valueOf(holder.donationNumber));
             }
-        }else if(holder.specialNotes != null){
+        }else if(holder.userId != null){
             ArrayList<SpecialNotes> list =  holder.specialNotes;
             ArrayList<String> list1 = new ArrayList<>();
             for(SpecialNotes s : list){
                 list1.add(s.name);
             }
             int count = adapter.getCount();
-            for(int i = 0; i < count; i++){
+            /*for(int i = 0; i < count; i++){
                 SpecialNotes current = adapter.getItem(i);
                 if(list1.contains(current.name)){
                     specialNotes.setItemChecked(i, true);
                 }
-            }
+            }*/
 
             if(holder.userId != null){
                 count = userArrayAdapter.getCount();
@@ -149,13 +145,9 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
                     hamocue.setItemChecked(k, true);
                 }
             }
-            PackType d = holder.packType;
-            count = packTypeArrayAdapter.getCount();
-            for(int k = 0; k < count; k++){
-                PackType current = packTypeArrayAdapter.getItem(k);
-                if(current.equals(d)){
-                    packType.setItemChecked(k, true);
-                }
+
+            if(holder.donationNumber != null){
+                donationNumber.setText(String.valueOf(holder.donationNumber));
             }
         }else {
             item = new Donor();
@@ -166,19 +158,27 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        if(getUser() == null || (hamocue.getVisibility() == View.VISIBLE && getHamocue() == null) || getPackType() == null){
-            AppUtil.createShortNotification(this, "Sorry, this response is required");
-        }else{
-            holder.hamocue = getHamocue();
-            holder.packType = getPackType();
-            holder.userId = getUser().serverId;
-            holder.specialNotes = getSpecialNotes();
-            Intent intent = new Intent(this, NurseFinalActivity.class);
-            intent.putExtra("holder", holder);
-            intent.putExtra("counsellor", counsellor);
-            intent.putExtra("donorNumber", donorNumber);
-            startActivity(intent);
-            finish();
+        if(view.getId() == donationNumber.getId()){
+            IntentIntegrator scanner = new IntentIntegrator(this);
+            scanner.initiateScan();
+        }
+        if(view.getId() == next.getId()){
+            if(getUser() == null || (hamocue.getVisibility() == View.VISIBLE && getHamocue() == null)){
+                AppUtil.createShortNotification(this, "Sorry, this response is required");
+            }else{
+                holder.hamocue = getHamocue();
+                holder.userId = getUser().serverId;
+                //holder.specialNotes = getSpecialNotes();
+                if( ! donationNumber.getText().toString().isEmpty()){
+                    holder.donationNumber = donationNumber.getText().toString();
+                }
+                Intent intent = new Intent(this, NurseFinalActivity.class);
+                intent.putExtra("holder", holder);
+                intent.putExtra("counsellor", counsellor);
+                intent.putExtra("donorNumber", donorNumber);
+                startActivity(intent);
+                finish();
+            }
         }
 
     }
@@ -186,11 +186,13 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
     @Override
     public void onBackPressed(){
         holder.hamocue = getHamocue();
-        holder.packType = getPackType();
         if(getUser() != null){
             holder.userId = getUser().serverId;
         }
-        holder.specialNotes = getSpecialNotes();
+        if( ! donationNumber.getText().toString().isEmpty()){
+            holder.donationNumber = donationNumber.getText().toString();
+        }
+        //holder.specialNotes = getSpecialNotes();
         if(holder.donateDefer != null && holder.donateDefer.equals(DonateDefer.DEFER)){
             Intent intent = new Intent(this, DeferStep1.class);
             intent.putExtra("holder", holder);
@@ -209,6 +211,16 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
 
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if(scanningResult != null){
+            String scanContent = scanningResult.getContents();
+            donationNumber.setText(scanContent);
+        }else{
+            AppUtil.createShortNotification(this, "No data retrieved");
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem  item){
         switch (item.getItemId()){
             case android.R.id.home:
@@ -219,7 +231,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
         }
     }
 
-    private ArrayList<SpecialNotes> getSpecialNotes(){
+    /*private ArrayList<SpecialNotes> getSpecialNotes(){
         ArrayList<SpecialNotes> a = new ArrayList<>();
         for(int i = 0; i < specialNotes.getCount(); i++){
             if(specialNotes.isItemChecked(i)){
@@ -229,17 +241,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
             }
         }
         return a;
-    }
-
-    private PackType getPackType(){
-        PackType item = null;
-        for(int i = 0; i < packType.getCount(); i++){
-            if(packType.isItemChecked(i)){
-                item = packTypeArrayAdapter.getItem(i);
-            }
-        }
-        return item;
-    }
+    }*/
 
     private PassFail getHamocue(){
         PassFail item = null;

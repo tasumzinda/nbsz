@@ -168,7 +168,7 @@ public class Donor extends Model implements Serializable {
 
     public YesNo sufferedFromSTD;
 
-    public YesNoNA monogamousRelationship;
+    public YesNo contactWithPersonWithHepatitisB;
 
     public YesNo sufferedFromNightSweats;
 
@@ -240,6 +240,10 @@ public class Donor extends Model implements Serializable {
     public String accepted;
 
     public ArrayList<Long> incentives;
+
+    @Column
+    @Expose
+    public Integer numberOfDonations;
 
 
 
@@ -320,6 +324,10 @@ public class Donor extends Model implements Serializable {
             item.firstName = object.getString("firstName").toUpperCase().trim();
             item.surname = object.getString("surname").toUpperCase().trim();
             item.idNumber = object.getString("idNumber");
+            if( ! object.isNull("numberOfDonations")){
+                item.numberOfDonations = object.getInt("numberOfDonations");
+            }
+
             if(object.getString("gender").equals("M") || object.getString("gender").equals("F")){
                 item.gender = Gender.valueOf(object.getString("gender"));
             }

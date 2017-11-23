@@ -356,6 +356,9 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                                     item.firstName = object.getString("firstName").toUpperCase().trim();
                                     item.surname = object.getString("surname").toUpperCase().trim();
                                     item.idNumber = object.getString("idNumber");
+                                    if( ! object.isNull("numberOfDonations")){
+                                        item.numberOfDonations = object.getInt("numberOfDonations");
+                                    }
                                     if(object.getString("gender").equals("M") || object.getString("gender").equals("F")){
                                         item.gender = Gender.valueOf(object.getString("gender"));
                                     }

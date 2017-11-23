@@ -67,7 +67,7 @@
                         android:text="Have you been in contact with someone suffering from HepatitisB?"
                 />
                 <it.sephiroth.android.library.widget.HListView
-                        android:id="@+id/change_in_marital_status"
+                        android:id="@+id/contact_hepatitisB"
                         style="@style/ListViewStyle"
                 />
             </LinearLayout>
