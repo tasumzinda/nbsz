@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import org.w3c.dom.Text;
 import zw.org.nbsz.R;
@@ -25,6 +26,9 @@ public class DonorReviewActivity extends BaseActivity {
     private TextView maritalStatus;
     private TextView lastDonation;
     private TextView residentialAddress;
+    private TextView bloodGroup;
+    private TextView numDonations;
+    private Button next;
     private Long id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,9 @@ public class DonorReviewActivity extends BaseActivity {
         maritalStatus = (TextView) findViewById(R.id.marital_status);
         lastDonation = (TextView) findViewById(R.id.last_donation);
         residentialAddress = (TextView) findViewById(R.id.residential_address);
+        bloodGroup = (TextView) findViewById(R.id.blood_group);
+        numDonations = (TextView) findViewById(R.id.num_donations);
+        next = (Button) findViewById(R.id.btn_save);
         Intent intent = getIntent();
         id = intent.getLongExtra("id", 1L);
         Donor item = Donor.findById(id);
@@ -55,6 +62,8 @@ public class DonorReviewActivity extends BaseActivity {
         maritalStatus.setText(item.maritalStatus != null ? item.maritalStatus.name : "");
         lastDonation.setText(item.entry);
         residentialAddress.setText(item.residentialAddress);
+        bloodGroup.setText(item.bloodGroup != null ? item.bloodGroup : "");
+        numDonations.setText(item.numberOfDonations != null ? String.valueOf(item.numberOfDonations) : "");
     }
 
     @Override

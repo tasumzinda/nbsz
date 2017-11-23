@@ -41,7 +41,6 @@ public class DonorListActivity extends BaseActivity implements AdapterView.OnIte
         Intent intent = new Intent(DonorListActivity.this, DonorReviewActivity.class);
         intent.putExtra("id", donor.getId());
         String name = donor.firstName + " " + donor.surname;
-        Log.d("Patient", AppUtil.createGson().toJson(donor));
         intent.putExtra(AppUtil.NAME, name);
         startActivity(intent);
         finish();

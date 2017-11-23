@@ -136,6 +136,8 @@
         <activity android:name=".activity.DonorReviewActivity">
         </activity>
         <activity android:name=".activity.SearchDonorListActivity"/>
+        <activity android:name=".activity.AdverseEffectsActivity">
+        </activity>
     </application>
 
 </manifest>

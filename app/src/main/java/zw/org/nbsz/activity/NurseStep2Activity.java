@@ -26,11 +26,9 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
 
     private ListView hamocue;
     private ListView bledBy;
-    //private ListView specialNotes;
     private Button next;
     private Donor holder;
     private Counsellor counsellor;
-    private ArrayAdapter<SpecialNotes> adapter;
     private String donorNumber;
     private Donor item;
     private ArrayAdapter<PassFail> passFailArrayAdapter;
@@ -51,20 +49,14 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
         hamocue = (ListView) findViewById(R.id.hamocue);
         hamocueLabel = (TextView) findViewById(R.id.hamocue_label);
         bledBy = (ListView) findViewById(R.id.bled_by);
-        //specialNotes = (ListView) findViewById(R.id.list);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
         donationNumber.setOnClickListener(this);
-        adapter = new ArrayAdapter<>(this, R.layout.check_box_item, SpecialNotes.getAll());
         passFailArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, PassFail.values());
         hamocue.setAdapter(passFailArrayAdapter);
         hamocue.setItemsCanFocus(false);
         hamocue.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         passFailArrayAdapter.notifyDataSetChanged();
-        //specialNotes.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        /*specialNotes.setItemsCanFocus(false);
-        specialNotes.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);*/
         userArrayAdapter = new ArrayAdapter<>(this, R.layout.check_box_item, User.getActive());
         bledBy.setAdapter(userArrayAdapter);
         bledBy.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -81,15 +73,8 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
             for(SpecialNotes s : list){
                 list1.add(s.name);
             }
-            int count = adapter.getCount();
-            /*for(int i = 0; i < count; i++){
-                SpecialNotes current = adapter.getItem(i);
-                if(list1.contains(current.name)){
-                    specialNotes.setItemChecked(i, true);
-                }
-            }*/
 
-            count = userArrayAdapter.getCount();
+            int count = userArrayAdapter.getCount();
             if(holder.userId != null){
                 User user = User.findById(holder.userId);
                 for(int i = 0; i < count; i++){
@@ -117,16 +102,9 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
             for(SpecialNotes s : list){
                 list1.add(s.name);
             }
-            int count = adapter.getCount();
-            /*for(int i = 0; i < count; i++){
-                SpecialNotes current = adapter.getItem(i);
-                if(list1.contains(current.name)){
-                    specialNotes.setItemChecked(i, true);
-                }
-            }*/
 
             if(holder.userId != null){
-                count = userArrayAdapter.getCount();
+                int count = userArrayAdapter.getCount();
                 User user = User.findById(holder.userId);
                 for(int i = 0; i < count; i++){
                     User current = userArrayAdapter.getItem(i);
@@ -138,7 +116,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
 
 
             PassFail p = holder.hamocue;
-            count = passFailArrayAdapter.getCount();
+            int count = passFailArrayAdapter.getCount();
             for(int k = 0; k < count; k++){
                 PassFail current = passFailArrayAdapter.getItem(k);
                 if(current.equals(p)){
@@ -230,18 +208,6 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /*private ArrayList<SpecialNotes> getSpecialNotes(){
-        ArrayList<SpecialNotes> a = new ArrayList<>();
-        for(int i = 0; i < specialNotes.getCount(); i++){
-            if(specialNotes.isItemChecked(i)){
-                a.add(adapter.getItem(i));
-            }else{
-                a.remove(adapter.getItem(i));
-            }
-        }
-        return a;
-    }*/
 
     private PassFail getHamocue(){
         PassFail item = null;
