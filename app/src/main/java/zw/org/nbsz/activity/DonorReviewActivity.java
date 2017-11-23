@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import org.w3c.dom.Text;
@@ -14,7 +15,7 @@ import zw.org.nbsz.business.util.Log;
 
 import java.util.ArrayList;
 
-public class DonorReviewActivity extends BaseActivity {
+public class DonorReviewActivity extends BaseActivity implements View.OnClickListener{
 
     private TextView surname;
     private TextView firstName;
@@ -49,6 +50,7 @@ public class DonorReviewActivity extends BaseActivity {
         bloodGroup = (TextView) findViewById(R.id.blood_group);
         numDonations = (TextView) findViewById(R.id.num_donations);
         next = (Button) findViewById(R.id.btn_save);
+        next.setOnClickListener(this);
         Intent intent = getIntent();
         id = intent.getLongExtra("id", 1L);
         Donor item = Donor.findById(id);
@@ -70,6 +72,14 @@ public class DonorReviewActivity extends BaseActivity {
     public void onBackPressed(){
         Intent intent = new Intent(this, DonorListActivity.class);
         //intent.putExtra("donorNumber", donorNumber);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this, AdverseEffectsActivity.class);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }
