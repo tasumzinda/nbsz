@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import zw.org.nbsz.R;
+import zw.org.nbsz.business.domain.BankStaff;
 import zw.org.nbsz.business.domain.CollectSite;
 import zw.org.nbsz.business.domain.Counsellor;
 import zw.org.nbsz.business.domain.Donor;

@@ -7,9 +7,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import zw.org.nbsz.R;
-import zw.org.nbsz.business.domain.Counsellor;
-import zw.org.nbsz.business.domain.Donor;
-import zw.org.nbsz.business.domain.SpecialNotes;
+import zw.org.nbsz.business.domain.*;
 import zw.org.nbsz.business.util.AppUtil;
 import zw.org.nbsz.business.util.DateUtil;
 import zw.org.nbsz.business.util.Log;
@@ -36,8 +34,11 @@ public class DonatedBloodActivity extends BaseActivity implements View.OnClickLi
         if(download != null && ! download.isEmpty()){
             downloadDonors();
         }
-        for(Donor d: Donor.getAll()){
-            Log.d("Donor", d.firstName + " " + d.surname + d.dob);
+        for(User m : User.getAll()){
+            Log.d("User", m.name);
+        }
+        for(BankStaff m : BankStaff.getAll()){
+            Log.d("Bankstaff", m.name);
         }
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
