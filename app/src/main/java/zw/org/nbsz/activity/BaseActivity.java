@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public boolean validateNationalId(String nationalId) {
-        if (nationalId.trim().matches("([0-9]{2})-([0-9]{6,7})-([A-Z])([0-9]{2})")) {
+        if (nationalId.trim().matches("([0-9]{2})-([0-9]{6,7})([A-Z])([0-9]{2})")) {
             return true;
         } else {
             return false;
