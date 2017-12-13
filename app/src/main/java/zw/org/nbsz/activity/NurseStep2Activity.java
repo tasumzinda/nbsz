@@ -68,12 +68,6 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
         }
         if(donorNumber != null && ! donorNumber.isEmpty() && holder.specialNotes != null){
             item = Donor.findByDonorNumber(donorNumber);
-            ArrayList<SpecialNotes> list =  holder.specialNotes;
-            ArrayList<String> list1 = new ArrayList<>();
-            for(SpecialNotes s : list){
-                list1.add(s.name);
-            }
-
             int count = userArrayAdapter.getCount();
             if(holder.userId != null){
                 User user = User.findById(holder.userId);
@@ -97,12 +91,6 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
                 donationNumber.setText(String.valueOf(holder.donationNumber));
             }
         }else if(holder.userId != null){
-            ArrayList<SpecialNotes> list =  holder.specialNotes;
-            ArrayList<String> list1 = new ArrayList<>();
-            for(SpecialNotes s : list){
-                list1.add(s.name);
-            }
-
             if(holder.userId != null){
                 int count = userArrayAdapter.getCount();
                 User user = User.findById(holder.userId);

@@ -196,6 +196,10 @@ public class AppUtil {
         return HttpUrl.parse(getBaseUrl(context).concat("static/incentive")).newBuilder().build();
     }
 
+    public static HttpUrl getSpecialNotesUrl(Context context){
+        return HttpUrl.parse(getBaseUrl(context).concat("static/special-notes")).newBuilder().build();
+    }
+
     public static HttpUrl getUserUrl(Context context){
         return HttpUrl.parse(getBaseUrl(context).concat("static/user")).newBuilder()
                 .setQueryParameter("id", String.valueOf(User.getLoggedIn().centre.server_id))

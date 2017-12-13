@@ -65,7 +65,7 @@ public class PushService extends IntentService {
                 Long out = Long.parseLong(run(AppUtil.getPushDonationUrl(context, donation.serverId), donation)) ;
                 if(out == 1L){
                     donation.delete();
-                    Log.d("Deleted donation", donation.person.firstName);
+                    Log.d("Deleted donation", donation.donationDate);
                 }
             }
             for(Offer offer : Offer.getAll()){
@@ -73,10 +73,10 @@ public class PushService extends IntentService {
                 if(out == 1L){
                     for(OfferIncentiveContract m : OfferIncentiveContract.findByOffer(offer)){
                         m.delete();
-                        Log.d("Deleted contract", offer.person.firstName);
+                        Log.d("Deleted contract", offer.donationNumber);
                     }
                     offer.delete();
-                    Log.d("Deleted offer", offer.person.firstName);
+                    Log.d("Deleted offer", offer.donationNumber);
                 }
             }
             for(DonationStats d : DonationStats.getAll()){
@@ -84,7 +84,7 @@ public class PushService extends IntentService {
                 Long out = Long.parseLong(run(AppUtil.getPushDonationStatsUrl(context, d.server_id), d)) ;
                 if(out == 1L){
                     d.delete();
-                    Log.d("Deleted stats", d.person.firstName);
+                    Log.d("Deleted stats", d.bloodPressure);
                 }
             }
         }catch (Exception ex){

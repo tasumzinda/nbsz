@@ -49,11 +49,6 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
         Intent intent = getIntent();
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
-        /*firstName = (EditText) findViewById(R.id.first_name);
-        surname = (EditText) findViewById(R.id.surname);
-        idNumber = (EditText) findViewById(R.id.id_number);
-        dateOfBirth = (EditText) findViewById(R.id.date_of_birth);
-        next = (Button) findViewById(R.id.btn_save);*/
         gender = (ListView) findViewById(R.id.gender);
         dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override

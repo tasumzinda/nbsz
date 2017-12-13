@@ -124,8 +124,8 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
     public void save(){
         if(counsellor != null){
             counsellor.save();
+            item.counsellor = counsellor;
         }
-        item.counsellor = counsellor;
         item.donateDefer = holder.donateDefer;
         if(holder.cityId != null){
             item.city = Centre.findById(holder.cityId);

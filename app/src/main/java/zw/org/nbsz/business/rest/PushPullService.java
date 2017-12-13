@@ -119,6 +119,14 @@ public class PushPullService extends IntentService {
                 ex.printStackTrace();
                 result = Activity.RESULT_CANCELED;
             }
+            try{
+                if(url.equals(AppUtil.getSpecialNotesUrl(context))){
+                    loadSpecialNotes(AppUtil.run(url, context));
+                }
+            }catch (IOException ex){
+                ex.printStackTrace();
+                result = Activity.RESULT_CANCELED;
+            }
         }
         try{
             for(Donor item : Donor.findByPushed()){
@@ -192,6 +200,7 @@ public class PushPullService extends IntentService {
         list.add(AppUtil.getDonorTypeUrl(context));
         list.add(AppUtil.getUserUrl(context));
         list.add(AppUtil.getIncentiveUrl(context));
+        list.add(AppUtil.getSpecialNotesUrl(context));
         return list;
     }
 
@@ -381,6 +390,26 @@ public class PushPullService extends IntentService {
         }catch (JSONException ex){
             ex.printStackTrace();
             msg = "Incentive sync failed";
+        }
+        return msg;
+    }
+
+    public String loadSpecialNotes(String data){
+        String msg = "Special Notes synced";
+        Log.d("Special notes", data);
+        try{
+            JSONArray array = new JSONArray(data);
+            ArrayList<SpecialNotes> list = SpecialNotes.fromJSON(array);
+            for(SpecialNotes item : list){
+                SpecialNotes duplicate = SpecialNotes.findById(item.serverId);
+                if(duplicate == null){
+                    item.save();
+                    Log.d("Saved special notes", item.name);
+                }
+            }
+        }catch (JSONException ex){
+            ex.printStackTrace();
+            msg = "Special notes sync failed";
         }
         return msg;
     }

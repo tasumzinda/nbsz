@@ -44,7 +44,7 @@ public class DonatedBloodActivity extends BaseActivity implements View.OnClickLi
         next.setOnClickListener(this);
         setSupportActionBar(createToolBar("NSBZ - Donor Enrolment"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(SpecialNotes.getAll().isEmpty()){
+        /*if(SpecialNotes.getAll().isEmpty()){
             SpecialNotes s = new SpecialNotes();
             s.name = "Severe Faint";
             s.save();
@@ -57,7 +57,7 @@ public class DonatedBloodActivity extends BaseActivity implements View.OnClickLi
             SpecialNotes s3 = new SpecialNotes();
             s3.name = "Insufficient Volume";
             s3.save();
-        }
+        }*/
 
     }
 
