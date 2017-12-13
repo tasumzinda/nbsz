@@ -25,8 +25,6 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
     private ListView copperSulphate;
     @BindView(R.id.weight)
     EditText weight;
-    @BindView(R.id.blood_group)
-    EditText bloodGroup;
     @BindView(R.id.btn_save)
     Button next;
     private Donor holder;
@@ -71,7 +69,6 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
             String[] values = pressure.split("/");
             bloodPressureTop.setText(values[0]);
             bloodPressureBottom.setText(values[1]);
-            bloodGroup.setText(item.bloodGroup);
             PassFail item =  holder.copperSulphate;
             int count = passFailArrayAdapter.getCount();
             for(int i = 0; i < count; i++){
@@ -95,7 +92,6 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
             String[] values = pressure.split("/");
             bloodPressureTop.setText(values[0]);
             bloodPressureBottom.setText(values[1]);
-            bloodGroup.setText(holder.bloodGroup);
             PassFail item =  holder.copperSulphate;
             int count = passFailArrayAdapter.getCount();
             for(int i = 0; i < count; i++){
@@ -128,7 +124,6 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
                 holder.bloodPressure = pressure;
                 holder.copperSulphate = getCopperSulphate();
                 holder.packType = getPackType();
-                holder.bloodGroup = bloodGroup.getText().toString();
                 Intent intent = new Intent(this, NurseStep2Activity.class);
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
@@ -150,7 +145,6 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
             String pressure = bloodPressureBottom.getText().toString() + "/" + bloodPressureTop.getText().toString();
             holder.bloodPressure = pressure;
         }
-        holder.bloodGroup = bloodGroup.getText().toString();
         holder.copperSulphate = getCopperSulphate();
         holder.packType = getPackType();
         Intent intent = new Intent(this, DeclarationFinalActivity.class);
@@ -204,13 +198,6 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
         if(packType.getCheckedItemCount() == 0){
             AppUtil.createShortNotification(this, "Sorry, this response is required");
             isValid = false;
-        }
-
-        if(bloodGroup.getText().toString().isEmpty()){
-            bloodGroup.setError(getResources().getString(R.string.required_field_error));
-            isValid = false;
-        }else{
-            bloodGroup.setError(null);
         }
         return isValid;
     }

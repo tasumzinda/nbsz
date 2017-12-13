@@ -69,20 +69,6 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Blood Group"
-                    android:layout_marginTop="@dimen/margin_top"
-                    android:layout_marginStart="@dimen/side_margin"
-                    android:layout_marginEnd="@dimen/side_margin"
-                    android:textSize="@dimen/text_size"
-            />
-            <EditText
-                    android:id="@+id/blood_group"
-                    android:inputType="text"
-                    android:hint="Blood Group"
-                    style="@style/TextBoxStyle"/>
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="Pack Type"
                     android:layout_marginTop="@dimen/margin_top"
                     android:layout_marginStart="@dimen/side_margin"

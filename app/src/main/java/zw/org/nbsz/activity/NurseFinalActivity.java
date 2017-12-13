@@ -162,11 +162,6 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
             item.dob = DateUtil.formatDate(holder.dateOfBirth);
         }
         if(holder.userId != null){
-            /*Log.d("BankStaff", "ID:" + AppUtil.createGson().toJson(BankStaff.findById(this.holder.userId)));
-            String[] arrayOfString = BankStaff.findById(this.holder.userId).name.split(" ");
-            String str = arrayOfString[1] + " " + arrayOfString[0];
-            this.item.bledBy = User.findByName(str);
-            Log.d("User", AppUtil.createGson().toJson(this.item.bledBy));*/
             item.bledBy = User.findById(holder.userId);
         }
         if(holder.email != null){
@@ -192,9 +187,6 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         }
         if(holder.firstName != null){
             item.firstName = holder.firstName;
-        }
-        if(holder.bloodGroup != null){
-            item.bloodGroup = holder.bloodGroup;
         }
         item.entryDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
