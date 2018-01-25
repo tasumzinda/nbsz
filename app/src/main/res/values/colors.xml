@@ -3,7 +3,7 @@
     <color name="colorPrimary">#620000</color>
     <color name="colorPrimaryDark">#4E0000</color>
     <color name="colorAccent">#FF4081</color>
-    <!--<color name="colorAccent">#FF4081</color>-->
     <color name="white">#FFF</color>
     <color name="text_bg_grey">#dcdcdc</color>
+    <color name="beige"> #424949</color>
 </resources>

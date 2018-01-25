@@ -64,11 +64,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
         urlField = (EditText) findViewById(R.id.url);
         urlField.setText(AppUtil.getBaseUrl(this));
         urlField.setEnabled(false);
-        button = (Button) findViewById(R.id.btn_login);
+        button = (Button) findViewById(R.id.login);
         button.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
         fields = new EditText[] {userNameField, passwordField, urlField};
-        setSupportActionBar(createToolBar("National Blood Services Mobile App: Login"));
 
     }
      private void loginRemote(){

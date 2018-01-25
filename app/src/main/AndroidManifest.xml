@@ -15,7 +15,7 @@
             android:name=".business.util.NSBZ"
             android:allowBackup="true"
             android:hardwareAccelerated="true"
-            android:icon="@mipmap/logo"
+            android:icon="@mipmap/nbs"
             android:label="@string/app_name"
             android:largeHeap="true"
             android:supportsRtl="true"
