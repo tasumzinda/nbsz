@@ -126,6 +126,7 @@ public class PushService extends IntentService {
         if(form.isNew == 1){
             form.server_id = null;
         }
+        form.specialNotes = SpecialNotes.findByDonor(form);
         String json =  AppUtil.createGson().toJson(form);
         return AppUtil.getResponeBody(client, httpUrl, json);
     }

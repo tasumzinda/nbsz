@@ -247,7 +247,7 @@ public class Donor extends Model implements Serializable {
 
 
 
-    public ArrayList<SpecialNotes> specialNotes;
+    public List<SpecialNotes> specialNotes;
 
     public Donor(){
         super();

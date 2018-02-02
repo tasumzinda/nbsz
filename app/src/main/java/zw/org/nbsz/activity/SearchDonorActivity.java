@@ -29,6 +29,7 @@ import zw.org.nbsz.business.util.DateUtil;
 import zw.org.nbsz.business.util.Log;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class SearchDonorActivity extends BaseActivity implements View.OnClickListener {
@@ -59,6 +60,9 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_search_donor);
         ButterKnife.bind(this);
         next.setOnClickListener(this);
+        for(Donor item : Donor.getAll()){
+            Log.d("Donor", item.firstName + "" + item.surname + item.donorNumber);
+        }
         Intent intent = getIntent();
         name = intent.getStringExtra("firstName");
         lastName = intent.getStringExtra("surname");
@@ -122,6 +126,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
             Donor item;
             if(validate()){
                 if(selected.getText().equals("Donor Number")){
+                    Log.d("Test", "Inside top");
                     item = Donor.findByDonorNumber(donorNumber.getText().toString());
                     if(item != null){
                         if(item.isNew == 1){
@@ -140,6 +145,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
 
                                     @Override
                                     public void onResponse(JSONObject response) {
+                                        Log.d("Response", response.toString());
                                         Donor item = Donor.fromJSON(response);
                                         item.save();
                                         Log.d("Saved donor", item.firstName + " " + item.surname);
@@ -152,6 +158,18 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
 
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
+                                        String body;
+                                        //get status code here
+                                        String statusCode = String.valueOf(error.networkResponse.statusCode);
+                                        //get response body and parse with appropriate encoding
+                                        if(error.networkResponse.data!=null) {
+                                            try {
+                                                body = new String(error.networkResponse.data,"UTF-8");
+                                                Log.d("Error", body);
+                                            } catch (UnsupportedEncodingException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
                                         AppUtil.createShortNotification(SearchDonorActivity.this, "Sorry, a donor with that number does not exist");
 
                                     }

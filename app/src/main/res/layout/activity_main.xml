@@ -39,7 +39,7 @@
                     android:layout_marginBottom="@dimen/side_margin"
                     android:textSize="@dimen/text_size"
                     android:textStyle="italic"
-                    android:text="quality@bloodbank.co.zw"
+                    android:text="quality@nbsz.co.zw"
             />
             <TextView
                     style="@style/TextViewInfo"

@@ -90,7 +90,7 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
                 }else {
                     int monthsToDate = DateUtil.getMonths(DateUtil.getDateFromString(donor.deferDate));
                     lastBloodDonationLabel.setText("Deferred Date");
-                    if(donor.deferPeriod < monthsToDate){
+                    if(donor.deferPeriod != null && donor.deferPeriod < monthsToDate){
                         lastDonation.setText(donor.deferDate + " " + "ELIGIBLE");
                     }else{
                         lastDonation.setText(donor.deferDate + " " + "INELIGIBLE");

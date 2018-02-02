@@ -46,9 +46,14 @@ public class AdverseEffectsActivity extends BaseActivity implements View.OnClick
             for(int i = 0; i < getSpecialNotes().size(); i++){
                 DonorSpecialNotesContract item = new DonorSpecialNotesContract();
                 item.specialNotes = getSpecialNotes().get(i);
-                item.donor = Donor.findById(id);
+                Donor donor = Donor.findById(id);
+                item.donor = donor;
                 item.save();
-                Log.d("Saved special", AppUtil.createGson().toJson(item));
+                donor.pushed = 1;
+                donor.save();
+                Intent intent = new Intent(this, DonatedBloodActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
     }

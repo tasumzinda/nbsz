@@ -85,13 +85,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             try{
                                 JSONObject object = response.getJSONObject("centre");
                                 Centre centre = Centre.fromJSON(object);
-                                centre.save();
+                                if(Centre.findById(centre.server_id) == null){
+                                    centre.save();
+                                }
                             }catch (JSONException ex){
                                 ex.printStackTrace();
                             }
                             User user = User.fromJSON(response);
-                            user.logged_in = 1;
-                            user.save();
+                            User current = User.findById(user.serverId);
+
+                            if(current == null){
+                                user.logged_in = 1;
+                                user.save();
+                            }else{
+                                current.logged_in = 1;
+                                current.save();
+                            }
                             AppUtil.savePreferences(getApplicationContext(), AppUtil.LOGGED_IN, Boolean.TRUE);
                             AppUtil.savePreferences(getApplicationContext(), AppUtil.USERNAME, userNameField.getText().toString());
                             AppUtil.savePreferences(getApplicationContext(), AppUtil.PASSWORD, passwordField.getText().toString());

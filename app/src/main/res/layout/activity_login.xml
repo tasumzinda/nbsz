@@ -20,9 +20,9 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="40dp"
                 android:adjustViewBounds="true"
-                android:src="@mipmap/nbs" />
+                android:src="@mipmap/logo" />
 
         <EditText
                 android:id="@+id/username"

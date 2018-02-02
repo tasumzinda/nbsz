@@ -235,13 +235,11 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         offer.pulse = this.holder.pulse;
         offer.offerTime = sdf.format(Long.valueOf(System.currentTimeMillis()));
         offer.save();
-        Log.d("Saved offer", AppUtil.createGson().toJson(offer));
         for(int i = 0; i < getIncentives().size(); i++){
             OfferIncentiveContract contract = new OfferIncentiveContract();
             contract.incentive = Incentive.findById((getIncentives().get(i)));
             contract.offer = offer;
             contract.save();
-            Log.d("Saved contract", contract.incentive.name);
         }
         DonationStats stats = new DonationStats();
         stats.victimOfSexualAbuse = holder.victimOfSexualAbuse;
@@ -277,7 +275,6 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         stats.copperSulphate = holder.copperSulphate;
         stats.packType = holder.packType;
         stats.hamocue = holder.hamocue;
-        stats.specialNotes = holder.specialNotes;//ToDo
         stats.bloodPressure = holder.bloodPressure;
         stats.entry = DateUtil.getStringFromDate(new Date());
         if(holder.pregnant != null){

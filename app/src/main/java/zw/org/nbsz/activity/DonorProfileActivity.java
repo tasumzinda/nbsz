@@ -185,7 +185,6 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
             isValid = false;
         }
         String id = idNumber.getText().toString();
-        String dob = DateUtil.formatDate(DateUtil.getDateFromString(date));
         if( ! id.isEmpty()){
             if( ! validateNationalId(id)){
                 idNumber.setError("Please enter a valid ID number");

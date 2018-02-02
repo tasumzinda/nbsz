@@ -161,8 +161,6 @@ public class DonationStats extends Model implements Serializable{
     @Expose
     public YesNo breastFeeding;
 
-    public ArrayList<SpecialNotes> specialNotes;
-
     @Expose
     @Column(name = "weight")
     public Double weight;
