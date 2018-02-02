@@ -6,5 +6,5 @@
                  android:text=""
                  android:gravity="center"
                  android:textSize="@dimen/text_size"
-                 android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
+                 android:drawableLeft="@drawable/check_box_selector"
 />
