@@ -60,9 +60,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_search_donor);
         ButterKnife.bind(this);
         next.setOnClickListener(this);
-        for(Donor item : Donor.getAll()){
-            Log.d("Donor", item.firstName + "" + item.surname + item.donorNumber);
-        }
         Intent intent = getIntent();
         name = intent.getStringExtra("firstName");
         lastName = intent.getStringExtra("surname");
@@ -126,7 +123,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
             Donor item;
             if(validate()){
                 if(selected.getText().equals("Donor Number")){
-                    Log.d("Test", "Inside top");
                     item = Donor.findByDonorNumber(donorNumber.getText().toString());
                     if(item != null){
                         if(item.isNew == 1){
@@ -145,10 +141,8 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
 
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                        Log.d("Response", response.toString());
                                         Donor item = Donor.fromJSON(response);
                                         item.save();
-                                        Log.d("Saved donor", item.firstName + " " + item.surname);
                                         Intent intent = new Intent(SearchDonorActivity.this, DonorDetailsActivity.class);
                                         intent.putExtra("donorNumber", item.donorNumber);
                                         startActivity(intent);
@@ -158,20 +152,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
 
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        String body;
-                                        //get status code here
-                                        String statusCode = String.valueOf(error.networkResponse.statusCode);
-                                        //get response body and parse with appropriate encoding
-                                        if(error.networkResponse.data!=null) {
-                                            try {
-                                                body = new String(error.networkResponse.data,"UTF-8");
-                                                Log.d("Error", body);
-                                            } catch (UnsupportedEncodingException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        AppUtil.createShortNotification(SearchDonorActivity.this, "Sorry, a donor with that number does not exist");
-
+                                        handleVolleyError(error);
                                     }
                                 })
                         {
@@ -191,7 +172,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                 }else if(selected.getText().equals("ID Number")){
                     item = Donor.findByNationalId(idNumber.getText().toString());
                     if(item != null){
-                        Log.d("Donor", AppUtil.createGson().toJson(item));
                         if(item.isNew == 1){
                             AppUtil.createShortNotification(this, "Please send this donor to the server first before searching for him/her");
                         }else {
@@ -209,7 +189,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                                     public void onResponse(JSONObject response) {
                                         Donor item = Donor.fromJSON(response);
                                         item.save();
-                                        Log.d("Saved donot", item.firstName + " " + item.surname);
                                         Intent intent = new Intent(SearchDonorActivity.this, DonorDetailsActivity.class);
                                         intent.putExtra("donorNumber", item.donorNumber);
                                         startActivity(intent);
@@ -219,8 +198,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
 
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        AppUtil.createShortNotification(SearchDonorActivity.this, "Sorry, a donor with that number does not exist");
-
+                                        handleVolleyError(error);
                                     }
                                 })
                         {
@@ -244,15 +222,11 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                     String dob = DateUtil.formatDate(date);
                     List<Donor> items = new ArrayList<>();
                     if(firstName1.isEmpty()){
-                        Log.d("Test", "Inside local top");
                         items = Donor.findByLastNameAndDateOfBirth(surname1.toUpperCase(), dob);
                     }else{
                         items = Donor.findByFirstNameAndLastNameAndDateOfBirth(firstName1.toUpperCase(), surname1.toUpperCase(), dob);
                     }
-
-                    Log.d("Items", AppUtil.createGson().toJson(items));
                     if(items.size() > 0){
-                        Log.d("Test", "Inside local");
                         /*if(item.isNew == 1){
                             AppUtil.createShortNotification(this, "Please send this donor to the server first before searching for him/her");
                         }else {*/
@@ -264,7 +238,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                             finish();
                         //}
                     }else{
-                        Log.d("Test", "Inside remote");
                         fetchRemote(this, firstName1, surname1, dob);
                     }
                 }
@@ -301,12 +274,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
         }
         if(selected != null){
             if(selected.getText().equals("Name, Surname And Date Of Birth")){
-                /*if(firstName.getText().toString().isEmpty()){
-                    firstName.setError(getResources().getString(R.string.required_field_error));
-                    isValid = false;
-                }else{
-                    firstName.setError(null);
-                }*/
                 if(surname.getText().toString().isEmpty()){
                     surname.setError(getResources().getString(R.string.required_field_error));
                     isValid = false;
@@ -363,7 +330,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("Response", response.length() + " ");
                         int count = response.length();
                         int saved = 0;
                         if(response.length() > 0){
@@ -428,7 +394,6 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                                         if(duplicate == null){
                                             c.save();
                                         }
-                                        Log.d("Saved counsellor", c.name);
                                         item.counsellor = c;
                                     }
                                     if( ! object.isNull("deferredReason")){
@@ -448,10 +413,8 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                                     Donor duplicate = Donor.findByServerId(item.server_id);
                                     if(duplicate == null){
                                         item.save();
-                                        Log.d("Saved item", item.donorNumber);
                                     }
                                     saved++;
-                                    Log.d("Saved count: ", saved + "");
                                     if(saved == count){
                                         Intent intent = new Intent(context, SearchDonorListActivity.class);
                                         intent.putExtra("firstName",name.trim().toUpperCase());
@@ -474,7 +437,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        AppUtil.createShortNotification(context, "A donor with those details does not exist");
+                        handleVolleyError(error);
                     }
                 }
         ) {
@@ -489,7 +452,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                 return params;
             }
         };
-        request.setRetryPolicy(new DefaultRetryPolicy(5000, 3, 2.0F));
+        //request.setRetryPolicy(new DefaultRetryPolicy(5000, 3, 2.0F));
         AppUtil.getInstance(context).addToRequestQueue(request);
     }
 

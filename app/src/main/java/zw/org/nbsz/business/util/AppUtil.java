@@ -38,7 +38,7 @@ public class AppUtil {
     public static String USERNAME = "USERNAME";
     public static String PASSWORD = "PASSWORD";
     //public static String BASE_URL = "http://196.2.73.10:8084/nbsz-mobile/rest/mobile/";
-    public static String BASE_URL = "http://192.168.4.27:8084/nbsz-mobile/rest/mobile/";
+    public static String BASE_URL = "http://192.168.1.140:8080";
     public static String NAME = "NAME";
     private static AppUtil appInstance;
     private static Context mContext;
@@ -206,10 +206,14 @@ public class AppUtil {
                 .build();
     }
 
-    public static HttpUrl getPushDonorUrl(Context context, Long id){
+    /*public static HttpUrl getPushDonorUrl(Context context, Long id){
         return HttpUrl.parse(getBaseUrl(context).concat("form/donor")).newBuilder()
                 .setQueryParameter("id", String.valueOf(id))
                 .build();
+    }*/
+
+    public static HttpUrl getPushDonorUrl(Context context, Long id){
+        return HttpUrl.parse(getBaseUrl(context)).newBuilder().build();
     }
 
     public static HttpUrl getPushDonationUrl(Context context, Long id){

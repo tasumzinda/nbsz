@@ -16,9 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -288,7 +286,17 @@ public class BaseActivity extends AppCompatActivity {
         finish();
     }
 
-
-
-
+    public void handleVolleyError(VolleyError error){
+        if(error instanceof TimeoutError || error instanceof NoConnectionError){
+            AppUtil.createLongNotification(getApplicationContext(), "Connection to server has failed");
+        }else if(error instanceof AuthFailureError){
+            AppUtil.createLongNotification(getApplicationContext(),"Authentication from server failed");
+        }else if(error instanceof NetworkError){
+            AppUtil.createLongNotification(getApplicationContext(), "Network error");
+        }else if(error instanceof ServerError){
+            AppUtil.createLongNotification(getApplicationContext(), "An internal error occurred at the server");
+        }else if(error instanceof ParseError){
+            AppUtil.createLongNotification(getApplicationContext(), "Error. Failed to parse the network response");
+        }
+    }
 }

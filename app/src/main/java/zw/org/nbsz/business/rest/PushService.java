@@ -37,7 +37,7 @@ public class PushService extends IntentService {
         try{
             for(Donor item : Donor.findByPushed()){
                 Donor res = save(run(AppUtil.getPushDonorUrl(context, item.server_id), item), item);
-                for(Donation donation : Donation.findByDonor(item)){
+                /*for(Donation donation : Donation.findByDonor(item)){
                     zw.org.nbsz.business.util.Log.d("Donation", AppUtil.createGson().toJson(donation));
                     donation.person = res;
                     donation.save();
@@ -58,10 +58,10 @@ public class PushService extends IntentService {
                 if(res != null){
                     item.delete();
                     Log.d("Deleted stats", AppUtil.createGson().toJson(item));
-                }
+                }*/
 
             }
-            for(Donation donation : Donation.getAll()){
+            /*for(Donation donation : Donation.getAll()){
                 Long out = Long.parseLong(run(AppUtil.getPushDonationUrl(context, donation.serverId), donation)) ;
                 if(out == 1L){
                     donation.delete();
@@ -86,7 +86,7 @@ public class PushService extends IntentService {
                     d.delete();
                     Log.d("Deleted stats", d.bloodPressure);
                 }
-            }
+            }*/
         }catch (Exception ex){
             ex.printStackTrace();
             result = Activity.RESULT_CANCELED;
