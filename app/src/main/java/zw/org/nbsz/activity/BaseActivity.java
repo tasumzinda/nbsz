@@ -300,7 +300,7 @@ public class BaseActivity extends AppCompatActivity {
                 try {
                     //Replace below IP with the IP of that device in which server socket open.
                     //If you change port then change the port number in the server side code also.
-                    InetAddress address = InetAddress.getByName("192.168.43.143");
+                    InetAddress address = InetAddress.getByName("192.168.1.153");
                     Socket s = new Socket(address, 8080);
                     OutputStream out = s.getOutputStream();
                     PrintWriter output = new PrintWriter(out);

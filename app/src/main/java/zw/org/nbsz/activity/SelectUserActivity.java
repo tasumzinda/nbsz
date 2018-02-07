@@ -72,6 +72,7 @@ public class SelectUserActivity extends BaseActivity implements View.OnClickList
                 i.save();
             }
             for(User i : getSelectedUsers()){
+                Log.d("Saved user", AppUtil.createGson().toJson(i));
                 i.activeToday = 1;
                 i.save();
             }

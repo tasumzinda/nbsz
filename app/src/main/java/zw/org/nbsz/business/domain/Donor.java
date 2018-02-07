@@ -18,13 +18,18 @@ import java.util.*;
 /**
  * Created by tasu on 6/5/17.
  */
-@Table(name = "person")
+@Table(name = "person", id = "_id")
 public class Donor extends Model implements Serializable {
 
     @Expose
     @Column(name = "server_id")
     @SerializedName("id")
     public Long server_id;
+
+    @Expose
+    @Column
+    @SerializedName("localId")
+    public Long id;
 
     public Long professionId;
     @Expose
