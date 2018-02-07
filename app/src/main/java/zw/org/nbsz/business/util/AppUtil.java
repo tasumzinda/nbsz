@@ -93,7 +93,7 @@ public class AppUtil {
 
     public static Gson createGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy").create();
+        gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy").serializeNulls().create();
         return gson;
     }
 

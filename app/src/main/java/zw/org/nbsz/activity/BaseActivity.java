@@ -7,41 +7,31 @@ import android.app.ProgressDialog;
 import android.content.*;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import com.android.volley.*;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
 import it.sephiroth.android.library.widget.HListView;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.*;
-import zw.org.nbsz.business.domain.util.Gender;
 import zw.org.nbsz.business.rest.DownloadDonor;
 import zw.org.nbsz.business.rest.PushPullService;
 import zw.org.nbsz.business.util.AppUtil;
 import zw.org.nbsz.business.util.DateUtil;
 import zw.org.nbsz.business.util.Log;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -298,5 +288,47 @@ public class BaseActivity extends AppCompatActivity {
         }else if(error instanceof ParseError){
             AppUtil.createLongNotification(getApplicationContext(), "Error. Failed to parse the network response");
         }
+    }
+
+    public void sendMessage(final String msg) {
+
+        final Handler handler = new Handler();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    //Replace below IP with the IP of that device in which server socket open.
+                    //If you change port then change the port number in the server side code also.
+                    InetAddress address = InetAddress.getByName("192.168.43.143");
+                    Socket s = new Socket(address, 8080);
+                    OutputStream out = s.getOutputStream();
+                    PrintWriter output = new PrintWriter(out);
+                    output.println(msg);
+                    //output.write("\r\n");
+                    output.flush();
+                    BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                    final String st = input.readLine();
+                    Log.d("Response", "Test: " + st);
+                    /*handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            String s = mTextViewReplyFromServer.getText().toString();
+                            if (st.trim().length() != 0)
+                                mTextViewReplyFromServer.setText(s + "\nFrom Server : " + st);
+                        }
+                    });*/
+
+                    output.close();
+                    out.close();
+                    s.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 }

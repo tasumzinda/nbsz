@@ -34,30 +34,10 @@ public class DonatedBloodActivity extends BaseActivity implements View.OnClickLi
         if(download != null && ! download.isEmpty()){
             downloadDonors();
         }
-        for(User m : User.getAll()){
-            Log.d("User", m.name);
-        }
-        for(BankStaff m : BankStaff.getAll()){
-            Log.d("Bankstaff", m.name);
-        }
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
         setSupportActionBar(createToolBar("NSBZ - Donor Enrolment"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*if(SpecialNotes.getAll().isEmpty()){
-            SpecialNotes s = new SpecialNotes();
-            s.name = "Severe Faint";
-            s.save();
-            SpecialNotes s1 = new SpecialNotes();
-            s1.name = "Failed attempt";
-            s1.save();
-            SpecialNotes s2 = new SpecialNotes();
-            s2.name = "Haematoma";
-            s2.save();
-            SpecialNotes s3 = new SpecialNotes();
-            s3.name = "Insufficient Volume";
-            s3.save();
-        }*/
 
     }
 

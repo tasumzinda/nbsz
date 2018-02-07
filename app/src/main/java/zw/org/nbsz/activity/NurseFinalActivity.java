@@ -79,7 +79,7 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         if(finalized.isChecked()){
             save();
-            syncAppData();
+            //syncAppData();
             AppUtil.createShortNotification(this, "Donor successfully saved!");
             Intent intent = new Intent(this, DonatedBloodActivity.class);
             startActivity(intent);
@@ -159,7 +159,7 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         }
         if(holder.dateOfBirth != null){
             item.dateOfBirth = holder.dateOfBirth;
-            item.dob = DateUtil.formatDate(holder.dateOfBirth);
+            item.dob = DateUtil.formatDateRest(holder.dateOfBirth);
         }
         if(holder.userId != null){
             item.bledBy = User.findById(holder.userId);
@@ -285,6 +285,11 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         }
         stats.person = item;
         stats.save();
+        item.donations = Donation.findByDonor(item);
+        item.donationStats = DonationStats.findByDonor(item);
+        item.genderValue = item.gender.getName();
+        item.requestType = "POST_DONOR";
+        sendMessage(AppUtil.createGson().toJson(item));
     }
 
     @Override

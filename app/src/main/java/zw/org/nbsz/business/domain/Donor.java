@@ -249,6 +249,15 @@ public class Donor extends Model implements Serializable {
 
     public List<SpecialNotes> specialNotes;
 
+    @Expose
+    public List<Donation> donations;
+
+    @Expose
+    public List<DonationStats> donationStats;
+
+    @Expose
+    public String requestType;
+
     public Donor(){
         super();
     }
@@ -323,14 +332,19 @@ public class Donor extends Model implements Serializable {
         try{
             item.firstName = object.getString("firstName").toUpperCase().trim();
             item.surname = object.getString("surname").toUpperCase().trim();
-            item.idNumber = object.getString("idNumber");
+            if( ! object.isNull("idNumber")){
+                item.idNumber = object.getString("idNumber");
+            }
             if( ! object.isNull("numberOfDonations")){
                 item.numberOfDonations = object.getInt("numberOfDonations");
             }
 
-            if(object.getString("gender").equals("M") || object.getString("gender").equals("F")){
-                item.gender = Gender.valueOf(object.getString("gender"));
+            if( ! object.isNull("gender")){
+                if(object.getString("gender").equals("M") || object.getString("gender").equals("F")){
+                    item.gender = Gender.valueOf(object.getString("gender"));
+                }
             }
+
             if( ! object.isNull("dob")){
                 item.dateOfBirth = DateUtil.getDateFromString(object.getString("dob"));
                 item.dob = DateUtil.formatDate(item.dateOfBirth);
