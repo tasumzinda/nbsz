@@ -95,6 +95,7 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
         }
         if(view.getId() == next.getId()){
             if(validate(fields)){
+                String outcome = "";
                 if(validate()){
                     String date = dateOfBirth.getText().toString().trim();
                     String name = firstName.getText().toString().trim();
@@ -108,8 +109,13 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
                         intent.putExtra("dob", dob);
                         startActivity(intent);
                         finish();
-                    }else{
-                        fetchRemote(this, name, lastName, dob);
+                    }else if(list.size() == 0){
+                        String formattedDate = DateUtil.formatDateRest(DateUtil.getDateFromString(date));
+                        outcome = sendNameDobRequest(name, lastName, formattedDate, list);
+                        if(outcome.equals("Not found")){
+                            Log.d("Test", "Inside fetch remote");
+                            fetchRemote(this, name, lastName, dob);
+                        }
                     }
 
                 }
