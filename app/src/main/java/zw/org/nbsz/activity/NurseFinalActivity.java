@@ -22,6 +22,7 @@ import zw.org.nbsz.business.util.Log;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class NurseFinalActivity extends BaseActivity implements View.OnClickListener {
 
@@ -285,11 +286,18 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
         }
         stats.person = item;
         stats.save();
-        item.donations = Donation.findByDonor(item);
+        List<Donation> donations = new ArrayList<>();
+        for(Donation m : Donation.findByDonor(item)){
+            m.donationDate = DateUtil.getStringFromDate(m.date);
+            donations.add(m);
+        }
+        item.donations = donations;
         item.donationStats = DonationStats.findByDonor(item);
         item.genderValue = item.gender.getName();
         item.requestType = "POST_DONOR";
-        sendMessage(AppUtil.createGson().toJson(item));
+        item.donorNumber = "1988";
+        String result = sendMessage(AppUtil.createGson().toJson(item));
+        Log.d("Result", result);
     }
 
     @Override

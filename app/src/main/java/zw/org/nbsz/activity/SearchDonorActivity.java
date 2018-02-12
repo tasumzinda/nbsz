@@ -30,6 +30,7 @@ import zw.org.nbsz.business.util.Log;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.Socket;
 import java.util.*;
 
 public class SearchDonorActivity extends BaseActivity implements View.OnClickListener {
@@ -53,6 +54,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
     private String name;
     private String lastName;
     private String dob;
+    String outcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,42 +136,14 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                             finish();
                         }
 
-                    }else{
-                        String url = AppUtil.getBaseUrl(this) + "form/get-donor?donorNumber=" + donorNumber.getText().toString();
-                        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                                (com.android.volley.Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
-
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        Donor item = Donor.fromJSON(response);
-                                        item.save();
-                                        Intent intent = new Intent(SearchDonorActivity.this, DonorDetailsActivity.class);
-                                        intent.putExtra("donorNumber", item.donorNumber);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }, new com.android.volley.Response.ErrorListener() {
-
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        handleVolleyError(error);
-                                    }
-                                })
-                        {
-                            public Map<String, String> getHeaders() {
-                                Map<String, String> params = new HashMap<>();
-                                params.put(
-                                        "Authorization",
-                                        String.format("Basic %s", Base64.encodeToString(
-                                                String.format("%s:%s", AppUtil.getUsername(getApplicationContext()), AppUtil.getPassword(getApplicationContext())).getBytes(), Base64.DEFAULT)));
-                                params.put("Content-Type", "application/json; charset=UTF-8");
-
-                                return params;
-                            }
-                        };
-                        AppUtil.getInstance(getApplicationContext()).getRequestQueue().add(jsObjRequest);
+                    }else if(item == null){
+                        outcome = sendDonorNumberRequest(donorNumber, item);
+                        if(outcome.equals("Not found")){
+                            sendDonorNumberRequestRemote(donorNumber);
+                        }
                     }
-                }else if(selected.getText().equals("ID Number")){
+                }
+                if(selected.getText().equals("ID Number")){
                     item = Donor.findByNationalId(idNumber.getText().toString());
                     if(item != null){
                         if(item.isNew == 1){
@@ -180,42 +154,14 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                             startActivity(intent);
                             finish();
                         }
-                    }else{
-                        String url = AppUtil.getBaseUrl(this) + "form/get-by-idNumber?idNumber=" + idNumber.getText().toString();
-                        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                                (com.android.volley.Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
-
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        Donor item = Donor.fromJSON(response);
-                                        item.save();
-                                        Intent intent = new Intent(SearchDonorActivity.this, DonorDetailsActivity.class);
-                                        intent.putExtra("donorNumber", item.donorNumber);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                }, new com.android.volley.Response.ErrorListener() {
-
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        handleVolleyError(error);
-                                    }
-                                })
-                        {
-                            public Map<String, String> getHeaders() {
-                                Map<String, String> params = new HashMap<>();
-                                params.put(
-                                        "Authorization",
-                                        String.format("Basic %s", Base64.encodeToString(
-                                                String.format("%s:%s", AppUtil.getUsername(getApplicationContext()), AppUtil.getPassword(getApplicationContext())).getBytes(), Base64.DEFAULT)));
-                                params.put("Content-Type", "application/json; charset=UTF-8");
-
-                                return params;
-                            }
-                        };
-                        AppUtil.getInstance(getApplicationContext()).getRequestQueue().add(jsObjRequest);
+                    }else if(item == null){
+                        outcome = sendIdNumberRequest(idNumber, item);
+                        if(outcome.equals("Not found")){
+                            sendIdNumberRequestRemote(idNumber);
+                        }
                     }
-                }else if(selected.getText().equals("Name, Surname And Date Of Birth")){
+                }
+                if(selected.getText().equals("Name, Surname And Date Of Birth")){
                     String firstName1 = firstName.getText().toString().trim();
                     String surname1 = surname.getText().toString().trim();
                     Date date = DateUtil.getDateFromString(dateOfBirth.getText().toString());
@@ -227,18 +173,18 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                         items = Donor.findByFirstNameAndLastNameAndDateOfBirth(firstName1.toUpperCase(), surname1.toUpperCase(), dob);
                     }
                     if(items.size() > 0){
-                        /*if(item.isNew == 1){
-                            AppUtil.createShortNotification(this, "Please send this donor to the server first before searching for him/her");
-                        }else {*/
-                            Intent intent = new Intent(context, SearchDonorListActivity.class);
-                            intent.putExtra("firstName",firstName1.toUpperCase());
-                            intent.putExtra("surname", surname1.toUpperCase());
-                            intent.putExtra("dob", dob);
-                            startActivity(intent);
-                            finish();
-                        //}
-                    }else{
-                        fetchRemote(this, firstName1, surname1, dob);
+                        Intent intent = new Intent(context, SearchDonorListActivity.class);
+                        intent.putExtra("firstName",firstName1.toUpperCase());
+                        intent.putExtra("surname", surname1.toUpperCase());
+                        intent.putExtra("dob", dob);
+                        startActivity(intent);
+                        finish();
+                    }else if(items.size() == 0){
+                        String formattedDate = DateUtil.formatDateRest(date);
+                        outcome = sendNameDobRequest(firstName1, surname1, formattedDate, items);
+                        if(outcome.equals("Not found")){
+                            fetchRemote(this, firstName1, surname1, dob);
+                        }
                     }
                 }
             }

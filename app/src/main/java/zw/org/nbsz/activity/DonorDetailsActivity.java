@@ -71,9 +71,9 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
         gender.setText(donor.gender != null ? donor.gender.getName() : "");
         dateOfBirth.setText(DateUtil.getStringFromDate(donor.dateOfBirth));
         int waitingPeriod = 0;
-        if(donor.gender.equals(Gender.M)){
+        if(donor.gender != null && donor.gender.equals(Gender.M)){
             waitingPeriod = 12;
-        }else if(donor.gender.equals(Gender.F)){
+        }else if(donor.gender != null && donor.gender.equals(Gender.F)){
             waitingPeriod = 16;
         }
         if(donor.deferDate != null){

@@ -437,10 +437,6 @@ public class PushPullService extends IntentService {
         Donor fromServer = null;
         try{
             JSONObject object = new JSONObject(data);
-            /*item.donorNumber = object.getString("donorNumber");
-            item.server_id = object.getLong("id");
-            item.isNew = 0;
-            item.pushed = 0;*/
             fromServer = Donor.fromJSON(object);
             fromServer.isNew = 0;
             fromServer.pushed = 0;

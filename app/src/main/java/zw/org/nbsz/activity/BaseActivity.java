@@ -12,12 +12,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import com.android.volley.*;
+import com.android.volley.toolbox.JsonObjectRequest;
 import it.sephiroth.android.library.widget.HListView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.*;
 import zw.org.nbsz.business.rest.DownloadDonor;
@@ -25,13 +30,15 @@ import zw.org.nbsz.business.rest.PushPullService;
 import zw.org.nbsz.business.util.AppUtil;
 import zw.org.nbsz.business.util.DateUtil;
 import zw.org.nbsz.business.util.Log;
-
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -39,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     public Menu menu;
     public Toolbar toolbar;
     ProgressDialog progressDialog;
+    String result;
 
 
     public Toolbar createToolBar(String title) {
@@ -290,7 +298,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void sendMessage(final String msg) {
+    public String sendMessage(final String msg) {
 
         final Handler handler = new Handler();
         Thread thread = new Thread(new Runnable() {
@@ -300,35 +308,207 @@ public class BaseActivity extends AppCompatActivity {
                 try {
                     //Replace below IP with the IP of that device in which server socket open.
                     //If you change port then change the port number in the server side code also.
-                    InetAddress address = InetAddress.getByName("192.168.1.153");
-                    Socket s = new Socket(address, 8080);
+                    Socket s = openSocket();
                     OutputStream out = s.getOutputStream();
                     PrintWriter output = new PrintWriter(out);
+                    JSONObject object = new JSONObject(msg);
+                    String requestType = object.getString("requestType");
                     output.println(msg);
                     //output.write("\r\n");
                     output.flush();
                     BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                    final String st = input.readLine();
-                    Log.d("Response", "Test: " + st);
-                    /*handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            String s = mTextViewReplyFromServer.getText().toString();
-                            if (st.trim().length() != 0)
-                                mTextViewReplyFromServer.setText(s + "\nFrom Server : " + st);
-                        }
-                    });*/
-
+                    String st = input.readLine();
+                    result = st;
+                    /*JSONObject donor = null;
+                    Donor item = null;
+                    if(requestType.equals("donorNumber")){
+                        donor = new JSONObject(st);
+                        item = Donor.fromJSON(donor);
+                        Log.d("Donor", AppUtil.createGson().toJson(item));
+                    }*/
                     output.close();
                     out.close();
                     s.close();
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
 
         thread.start();
+        try{
+            thread.join();
+        }catch (InterruptedException ex){
+
+        }
+        return result;
+    }
+
+    public Socket openSocket() throws IOException{
+        InetAddress address = InetAddress.getByName("192.168.1.140");
+        Socket s = new Socket(address, 8080);
+        return s;
+    }
+
+    public String sendDonorNumberRequest(EditText donorNumber, Donor item){
+        JSONObject object = null;
+        try{
+            object = new JSONObject();
+            object.put("requestType", "donorNumber");
+            object.put("donorNumber", donorNumber.getText().toString());
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        if( ! result.equals("Not found")){
+            try{
+                item = Donor.fromJSON(new JSONObject(result));
+                item.save();
+                Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
+                intent.putExtra("donorNumber", item.donorNumber);
+                startActivity(intent);
+                finish();
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public void sendDonorNumberRequestRemote(EditText donorNumber){
+        String url = AppUtil.getBaseUrl(this) + "form/get-donor?donorNumber=" + donorNumber.getText().toString();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (com.android.volley.Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Donor item = Donor.fromJSON(response);
+                        item.save();
+                        Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
+                        intent.putExtra("donorNumber", item.donorNumber);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        handleVolleyError(error);
+                    }
+                })
+        {
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<>();
+                params.put(
+                        "Authorization",
+                        String.format("Basic %s", Base64.encodeToString(
+                                String.format("%s:%s", AppUtil.getUsername(getApplicationContext()), AppUtil.getPassword(getApplicationContext())).getBytes(), Base64.DEFAULT)));
+                params.put("Content-Type", "application/json; charset=UTF-8");
+
+                return params;
+            }
+        };
+        AppUtil.getInstance(getApplicationContext()).getRequestQueue().add(jsObjRequest);
+
+    }
+
+    public String sendIdNumberRequest(EditText idNumber, Donor item){
+        JSONObject object = null;
+        try{
+            object = new JSONObject();
+            object.put("requestType", "idNumber");
+            object.put("idNumber", idNumber.getText().toString());
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        Log.d("Result", result);
+        if( ! result.equals("Not found")){
+            try{
+                item = Donor.fromJSON(new JSONObject(result));
+                item.save();
+                Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
+                intent.putExtra("donorNumber", item.donorNumber);
+                startActivity(intent);
+                finish();
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public void sendIdNumberRequestRemote(EditText idNumber){
+        String url = AppUtil.getBaseUrl(this) + "form/get-by-idNumber?idNumber=" + idNumber.getText().toString();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (com.android.volley.Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Donor item = Donor.fromJSON(response);
+                        item.save();
+                        Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
+                        intent.putExtra("donorNumber", item.donorNumber);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        handleVolleyError(error);
+                    }
+                })
+        {
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<>();
+                params.put(
+                        "Authorization",
+                        String.format("Basic %s", Base64.encodeToString(
+                                String.format("%s:%s", AppUtil.getUsername(getApplicationContext()), AppUtil.getPassword(getApplicationContext())).getBytes(), Base64.DEFAULT)));
+                params.put("Content-Type", "application/json; charset=UTF-8");
+
+                return params;
+            }
+        };
+        AppUtil.getInstance(getApplicationContext()).getRequestQueue().add(jsObjRequest);
+
+    }
+
+    public String sendNameDobRequest(String firstName, String surname, String dob, List<Donor> items) {
+        JSONObject object = null;
+        Log.d("DOB", dob);
+        try {
+            object = new JSONObject();
+            object.put("requestType", "nameDob");
+            object.put("firstName", firstName);
+            object.put("surname", surname);
+            object.put("dob", dob);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        Log.d("Result", result);
+        if (!result.equals("Not found")) {
+            try {
+                items = Donor.fromJSON(new JSONArray(result));
+                if (items.size() > 0) {
+                    for(Donor item : items){
+                        item.save();
+                    }
+                    Intent intent = new Intent(context, SearchDonorListActivity.class);
+                    intent.putExtra("firstName", firstName.toUpperCase());
+                    intent.putExtra("surname", surname.toUpperCase());
+                    Date date = DateUtil.getDateFromString(dob);
+                    String formattedDate = DateUtil.formatDate(date);
+                    intent.putExtra("dob", formattedDate);
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
     }
 }

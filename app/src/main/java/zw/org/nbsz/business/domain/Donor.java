@@ -18,18 +18,13 @@ import java.util.*;
 /**
  * Created by tasu on 6/5/17.
  */
-@Table(name = "person", id = "_id")
+@Table(name = "person")
 public class Donor extends Model implements Serializable {
 
     @Expose
     @Column(name = "server_id")
     @SerializedName("id")
     public Long server_id;
-
-    @Expose
-    @Column
-    @SerializedName("localId")
-    public Long id;
 
     public Long professionId;
     @Expose
@@ -415,7 +410,9 @@ public class Donor extends Model implements Serializable {
                 JSONObject donationType = object.getJSONObject("donationType");
                 item.donationType = DonationType.findById(donationType.getLong("id"));
             }
-            item.server_id = object.getLong("id");
+            if( ! object.isNull("id")){
+                item.server_id = object.getLong("id");
+            }
             item.donorNumber = object.getString("donorNumber");
         }catch (JSONException ex){
             ex.printStackTrace();
