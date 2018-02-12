@@ -24,7 +24,7 @@
             />
             <EditText
                     android:id="@+id/weight"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
                     android:hint="Weight (in Kg)"
                     style="@style/TextBoxStyle"/>
             <TextView

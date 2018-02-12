@@ -292,12 +292,36 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
             donations.add(m);
         }
         item.donations = donations;
+        List<Offer> offers = new ArrayList<>();
+        for(Offer m : Offer.findByDonor(item)){
+            m.offer = DateUtil.getStringFromDate(m.offerDate);
+            if(m.deferDate != null){
+                m.defer = DateUtil.getStringFromDate(m.deferDate);
+            }
+            m.incentives = Incentive.findByOffer(m);
+            offers.add(m);
+        }
+        item.offers = offers;
         item.donationStats = DonationStats.findByDonor(item);
+        item.specialNotes = SpecialNotes.findByDonor(item);
         item.genderValue = item.gender.getName();
         item.requestType = "POST_DONOR";
-        item.donorNumber = "1988";
         String result = sendMessage(AppUtil.createGson().toJson(item));
-        Log.d("Result", result);
+        item.localId = result;
+        item.save();
+        for(Donation m : Donation.findByDonor(item)){
+            m.delete();
+        }
+
+        for(Offer m : Offer.findByDonor(item)){
+            for(OfferIncentiveContract o : OfferIncentiveContract.findByOffer(m)){
+                o.delete();
+            }
+            m.delete();
+        }
+        for(DonorSpecialNotesContract m : DonorSpecialNotesContract.findByDonor(item)){
+            m.delete();
+        }
     }
 
     @Override

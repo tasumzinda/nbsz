@@ -109,7 +109,9 @@ public class DeferStep1 extends BaseActivity implements View.OnClickListener {
     @Override
     public void onBackPressed(){
         Intent intent = new Intent(this, DeclarationFinalActivity.class);
-        holder.deferPeriod = Integer.parseInt(deferPeriod.getText().toString());
+        if( ! deferPeriod.getText().toString().isEmpty()){
+            holder.deferPeriod = Integer.parseInt(deferPeriod.getText().toString());
+        }
         if(getDefferredReason() != null){
             holder.defferedReasonId = getDefferredReason().server_id;
         }

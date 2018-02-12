@@ -38,11 +38,27 @@ public class AdverseEffectsActivity extends BaseActivity implements View.OnClick
         id = intent.getLongExtra("id", 0L);
         setSupportActionBar(createToolBar("NBSZ-ADVERSE EFFECTS"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ArrayList<SpecialNotes> list = (ArrayList<SpecialNotes>) Donor.findById(id).specialNotes;
+        ArrayList<Long> idList = new ArrayList<>();
+        if(list != null && list.size() > 0){
+            for(SpecialNotes s : list){
+                idList.add(s.serverId);
+            }
+        }
+        for(int i = 0; i < adapter.getCount(); i++){
+            SpecialNotes current = adapter.getItem(i);
+            if(idList.contains(current.serverId)){
+                specialNotes.setItemChecked(i, true);
+            }
+        }
     }
 
     @Override
     public void onClick(View view) {
         if(getSpecialNotes().size() > 0){
+            for(DonorSpecialNotesContract m : DonorSpecialNotesContract.findByDonor(Donor.findById(id))){
+                m.delete();
+            }
             for(int i = 0; i < getSpecialNotes().size(); i++){
                 DonorSpecialNotesContract item = new DonorSpecialNotesContract();
                 item.specialNotes = getSpecialNotes().get(i);
@@ -51,6 +67,10 @@ public class AdverseEffectsActivity extends BaseActivity implements View.OnClick
                 item.save();
                 donor.pushed = 1;
                 donor.save();
+                donor.specialNotes = SpecialNotes.findByDonor(donor);
+                donor.requestType = "POST_DONOR";
+                String result = sendMessage(AppUtil.createGson().toJson(donor));
+                Log.d("Result", result);
                 Intent intent = new Intent(this, DonatedBloodActivity.class);
                 startActivity(intent);
                 finish();

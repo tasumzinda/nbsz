@@ -345,7 +345,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public Socket openSocket() throws IOException{
-        InetAddress address = InetAddress.getByName("192.168.1.140");
+        InetAddress address = InetAddress.getByName("192.168.43.116");
         Socket s = new Socket(address, 8080);
         return s;
     }

@@ -26,6 +26,10 @@ public class Donor extends Model implements Serializable {
     @SerializedName("id")
     public Long server_id;
 
+    @Expose
+    @Column
+    public String localId;
+
     public Long professionId;
     @Expose
     @Column(name = "profession")
@@ -247,6 +251,7 @@ public class Donor extends Model implements Serializable {
 
 
 
+    @Expose
     public List<SpecialNotes> specialNotes;
 
     @Expose
@@ -254,6 +259,9 @@ public class Donor extends Model implements Serializable {
 
     @Expose
     public List<DonationStats> donationStats;
+
+    @Expose
+    public List<Offer> offers;
 
     @Expose
     public String requestType;
