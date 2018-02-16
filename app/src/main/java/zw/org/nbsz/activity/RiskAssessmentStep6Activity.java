@@ -2,6 +2,7 @@ package zw.org.nbsz.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,9 +11,13 @@ import android.widget.ListView;
 import it.sephiroth.android.library.widget.HListView;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Counsellor;
+import zw.org.nbsz.business.domain.DonationStats;
 import zw.org.nbsz.business.domain.Donor;
 import zw.org.nbsz.business.domain.util.YesNo;
 import zw.org.nbsz.business.domain.util.YesNoNA;
+import zw.org.nbsz.business.util.AppUtil;
+
+import java.util.List;
 
 public class RiskAssessmentStep6Activity extends BaseActivity implements View.OnClickListener {
 
@@ -27,6 +32,7 @@ public class RiskAssessmentStep6Activity extends BaseActivity implements View.On
     private String donorNumber;
     private Donor item;
     private ArrayAdapter<YesNo> yesNoArrayAdapter;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class RiskAssessmentStep6Activity extends BaseActivity implements View.On
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
         sufferedFromNightSweats = (HListView) findViewById(R.id.suffered_from_night_sweats);
         contactWithPersonWithHepatitisB = (HListView) findViewById(R.id.contact_hepatitisB);
         sexWithSomeoneWithUnknownBackground = (HListView) findViewById(R.id.casual_sex);
@@ -114,11 +121,13 @@ public class RiskAssessmentStep6Activity extends BaseActivity implements View.On
             holder.sufferedFromNightSweats = getSufferedFromNightSweats();
             holder.sexWithSomeoneWithUnknownBackground = getSexWithSomeoneWithUnknownBackground();
             holder.contactWithPersonWithHepatitisB = getContactWithPersonWithHepatitisB();
-            if(holder.feelingWellToday.equals(YesNo.NO) || holder.refusedToDonate.equals(YesNo.YES) || holder.beenToMalariaArea.equals(YesNo.YES)
-                    || holder.mealOrSnack.equals(YesNo.NO) || holder.dangerousOccupation.equals(YesNo.YES) || holder.rheumaticFever.equals(YesNo.YES)
-                    || holder.lungDisease.equals(YesNo.YES) || holder.cancer.equals(YesNo.YES) || holder.diabetes.equals(YesNo.YES)
-                    || holder.chronicMedicalCondition.equals(YesNo.YES) || holder.beenToDentist.equals(YesNo.YES) || holder.takenAntibiotics.equals(YesNo.YES)
-                    || holder.receivedBloodTransfusion.equals(YesNo.YES)
+            List<DonationStats> list = DonationStats.findByDonor(Donor.findById(id));
+            DonationStats item = list.get(0);
+            if(item.feelingWellToday.equals(YesNo.NO) || item.refusedToDonate.equals(YesNo.YES) || item.beenToMalariaArea.equals(YesNo.YES)
+                    || item.mealOrSnack.equals(YesNo.NO) || item.dangerousOccupation.equals(YesNo.YES) || item.rheumaticFever.equals(YesNo.YES)
+                    || item.lungDisease.equals(YesNo.YES) || item.cancer.equals(YesNo.YES) || item.diabetes.equals(YesNo.YES)
+                    || item.chronicMedicalCondition.equals(YesNo.YES) || item.beenToDentist.equals(YesNo.YES) || item.takenAntibiotics.equals(YesNo.YES)
+                    || item.receivedBloodTransfusion.equals(YesNo.YES)
                     || holder.hivTest.equals(YesNo.YES) || holder.beenTestedForHiv.equals(YesNo.YES) || holder.contactWithPersonWithYellowJaundice.equals(YesNo.YES)
                     || holder.accidentalExposureToBlood.equals(YesNo.YES) || holder.beenTattooedOrPierced.equals(YesNo.YES) || holder.sexWithSomeoneWithUnknownBackground.equals(YesNo.YES)
                     || holder.exchangedMoneyForSex.equals(YesNo.YES) || holder.trueForSexPartner.equals(YesNo.YES) || holder.sufferedFromSTD.equals(YesNo.YES) || holder.contactWithPersonWithHepatitisB.equals(YesNo.YES)
@@ -127,6 +136,7 @@ public class RiskAssessmentStep6Activity extends BaseActivity implements View.On
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
                 intent.putExtra("donorNumber", donorNumber);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }else{
@@ -134,6 +144,7 @@ public class RiskAssessmentStep6Activity extends BaseActivity implements View.On
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
                 intent.putExtra("donorNumber", donorNumber);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }
@@ -150,6 +161,7 @@ public class RiskAssessmentStep6Activity extends BaseActivity implements View.On
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }

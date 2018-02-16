@@ -9,8 +9,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Counsellor;
+import zw.org.nbsz.business.domain.DonationStats;
 import zw.org.nbsz.business.domain.Donor;
 import zw.org.nbsz.business.domain.util.YesNo;
+
+import java.util.List;
 
 public class AcknowledgeResponsesActivity extends BaseActivity implements View.OnClickListener {
 
@@ -75,6 +78,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
     private Counsellor counsellor;
     private String donorNumber;
     private Donor item;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
         feelingWell = (CheckBox) findViewById(R.id.feeling_well_today);
         feelingWellLabel = (TextView) findViewById(R.id.feeling_well_label);
         refusedToDonate = (CheckBox) findViewById(R.id.refused_to_donate);
@@ -257,63 +262,65 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
                 victimOfSexualAbuse.setVisibility(View.VISIBLE);
             }
         }else if(holder != null){
-            if(holder.feelingWellToday.equals(YesNo.NO)){
+            List<DonationStats> list = DonationStats.findByDonor(Donor.findById(id));
+            DonationStats item = list.get(0);
+            if(item.feelingWellToday.equals(YesNo.NO)){
                 feelingWell.setVisibility(View.VISIBLE);
                 feelingWellLabel.setVisibility(View.VISIBLE);
             }
-            if(holder.refusedToDonate.equals(YesNo.YES)){
+            if(item.refusedToDonate.equals(YesNo.YES)){
                 refusedToDonateLabel.setVisibility(View.VISIBLE);
                 refusedToDonate.setVisibility(View.VISIBLE);
             }
-            if(holder.beenToMalariaArea.equals(YesNo.YES)){
+            if(item.beenToMalariaArea.equals(YesNo.YES)){
                 beenToAMalariaAreaLabel.setVisibility(View.VISIBLE);
                 beenToAMalariaArea.setVisibility(View.VISIBLE);
             }
-            if(holder.mealOrSnack.equals(YesNo.NO)){
+            if(item.mealOrSnack.equals(YesNo.NO)){
                 mealOrSnackLabel.setVisibility(View.VISIBLE);
                 mealOrSnack.setVisibility(View.VISIBLE);
             }
-            if(holder.dangerousOccupation.equals(YesNo.YES)){
+            if(item.dangerousOccupation.equals(YesNo.YES)){
                 dangerousOccupationLabel.setVisibility(View.VISIBLE);
                 dangerousOccupation.setVisibility(View.VISIBLE);
             }
-            if(holder.rheumaticFever.equals(YesNo.YES)){
+            if(item.rheumaticFever.equals(YesNo.YES)){
                 rheumaticFeverLabel.setVisibility(View.VISIBLE);
                 rheumaticFever.setVisibility(View.VISIBLE);
             }
-            if(holder.lungDisease.equals(YesNo.YES)){
+            if(item.lungDisease.equals(YesNo.YES)){
                 lungDiseaseLabel.setVisibility(View.VISIBLE);
                 lungDisease.setVisibility(View.VISIBLE);
             }
-            if(holder.cancer.equals(YesNo.YES)){
+            if(item.cancer.equals(YesNo.YES)){
                 cancerLabel.setVisibility(View.VISIBLE);
                 cancer.setVisibility(View.VISIBLE);
             }
-            if(holder.diabetes.equals(YesNo.YES)){
+            if(item.diabetes.equals(YesNo.YES)){
                 diabetesLabel.setVisibility(View.VISIBLE);
                 diabetes.setVisibility(View.VISIBLE);
             }
-            if(holder.chronicMedicalCondition.equals(YesNo.YES)){
+            if(item.chronicMedicalCondition.equals(YesNo.YES)){
                 chronicMedicalConditionLabel.setVisibility(View.VISIBLE);
                 chronicMedicalCondition.setVisibility(View.VISIBLE);
             }
-            if(holder.beenToDentist.equals(YesNo.YES)){
+            if(item.beenToDentist.equals(YesNo.YES)){
                 beenToDentistLabel.setVisibility(View.VISIBLE);
                 beenToDentist.setVisibility(View.VISIBLE);
             }
-            if(holder.takenAntibiotics.equals(YesNo.YES)){
+            if(item.takenAntibiotics.equals(YesNo.YES)){
                 takenAntibioticsLabel.setVisibility(View.VISIBLE);
                 takenAntibiotics.setVisibility(View.VISIBLE);
             }
-            if(holder.injection.equals(YesNo.YES)){
+            if(item.injection.equals(YesNo.YES)){
                 injectionLabel.setVisibility(View.VISIBLE);
                 injection.setVisibility(View.VISIBLE);
             }
-            if(holder.beenIll.equals(YesNo.YES)){
+            if(item.beenIll.equals(YesNo.YES)){
                 beenIllLabel.setVisibility(View.VISIBLE);
                 beenIll.setVisibility(View.VISIBLE);
             }
-            if(holder.receivedBloodTransfusion.equals(YesNo.YES)){
+            if(item.receivedBloodTransfusion.equals(YesNo.YES)){
                 receivedBloodTransfusionLabel.setVisibility(View.VISIBLE);
                 receivedBloodTransfusion.setVisibility(View.VISIBLE);
             }
@@ -384,6 +391,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }
@@ -393,6 +401,7 @@ public class AcknowledgeResponsesActivity extends BaseActivity implements View.O
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }

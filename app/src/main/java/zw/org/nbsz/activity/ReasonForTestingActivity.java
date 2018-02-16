@@ -21,6 +21,7 @@ public class ReasonForTestingActivity extends BaseActivity implements View.OnCli
     private Counsellor counsellor;
     private String donorNumber;
     private Donor item;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class ReasonForTestingActivity extends BaseActivity implements View.OnCli
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
         reasonForTesting = (ListView) findViewById(R.id.list);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
@@ -70,6 +72,7 @@ public class ReasonForTestingActivity extends BaseActivity implements View.OnCli
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }
@@ -81,6 +84,7 @@ public class ReasonForTestingActivity extends BaseActivity implements View.OnCli
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }

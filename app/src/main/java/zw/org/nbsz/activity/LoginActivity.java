@@ -82,6 +82,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                         if(! hasLoggedIn){
                             progressDialog.setTitle("Signing in....please wait");
                             progressDialog.setCancelable(false);
+                            progressDialog.show();
                             try{
                                 JSONObject object = response.getJSONObject("centre");
                                 Centre centre = Centre.fromJSON(object);
@@ -105,7 +106,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener{
                             AppUtil.savePreferences(getApplicationContext(), AppUtil.USERNAME, userNameField.getText().toString());
                             AppUtil.savePreferences(getApplicationContext(), AppUtil.PASSWORD, passwordField.getText().toString());
                             AppUtil.savePreferences(getApplicationContext(), AppUtil.BASE_URL, urlField.getText().toString());
-                            progressDialog.hide();
+                            progressDialog.dismiss();
                             Intent intent = new Intent(LoginActivity.this, SelectUserActivity.class);
                             startActivity(intent);
                             finish();

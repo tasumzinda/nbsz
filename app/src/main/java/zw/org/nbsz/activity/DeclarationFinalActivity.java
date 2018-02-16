@@ -9,11 +9,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Counsellor;
+import zw.org.nbsz.business.domain.DonationStats;
 import zw.org.nbsz.business.domain.DonationType;
 import zw.org.nbsz.business.domain.Donor;
 import zw.org.nbsz.business.domain.util.DonateDefer;
 import zw.org.nbsz.business.domain.util.YesNo;
 import zw.org.nbsz.business.util.AppUtil;
+import zw.org.nbsz.business.util.Log;
+
+import java.util.List;
 
 public class DeclarationFinalActivity extends BaseActivity implements View.OnClickListener {
 
@@ -27,6 +31,7 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
     @BindView(R.id.donation_type)
     Spinner donationType;
     private ArrayAdapter<DonationType> donationTypeArrayAdapter;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
         donate = (ListView) findViewById(R.id.list);
         next = (Button) findViewById(R.id.btn_save);
         next.setOnClickListener(this);
@@ -90,13 +96,15 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         if(donate.getCheckedItemCount() != 0){
-            holder.donateDefer = getCheckedItem();
-            holder.donationTypeId = ((DonationType) donationType.getSelectedItem()).serverId;
-            if(holder.donateDefer.equals(DonateDefer.DEFER)){
+            //holder.donateDefer = getCheckedItem();
+            //holder.donationTypeId = ((DonationType) donationType.getSelectedItem()).serverId;
+            saveDonorStep2();
+            /*if(holder.donateDefer.equals(DonateDefer.DEFER)){
                 Intent intent = new Intent(this, DeferStep1.class);
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
                 intent.putExtra("donorNumber", donorNumber);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }else{
@@ -104,9 +112,10 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
                 intent.putExtra("donorNumber", donorNumber);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
-            }
+            }*/
 
         }else{
             AppUtil.createShortNotification(this, "Sorry, this response is required");
@@ -116,19 +125,22 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
 
     public void onBackPressed(){
         holder.donationTypeId = ((DonationType) donationType.getSelectedItem()).serverId;
-        if(holder.feelingWellToday.equals(YesNo.NO) || holder.refusedToDonate.equals(YesNo.YES) || holder.beenToMalariaArea.equals(YesNo.YES)
-                || holder.mealOrSnack.equals(YesNo.NO) || holder.dangerousOccupation.equals(YesNo.YES) || holder.rheumaticFever.equals(YesNo.YES)
-                || holder.lungDisease.equals(YesNo.YES) || holder.cancer.equals(YesNo.YES) || holder.diabetes.equals(YesNo.YES)
-                || holder.chronicMedicalCondition.equals(YesNo.YES) || holder.beenToDentist.equals(YesNo.YES) || holder.takenAntibiotics.equals(YesNo.YES)
-                || holder.receivedBloodTransfusion.equals(YesNo.YES)
+        List<DonationStats> list = DonationStats.findByDonor(Donor.findById(id));
+        DonationStats item = list.get(0);
+        if(item.feelingWellToday.equals(YesNo.NO) || item.refusedToDonate.equals(YesNo.YES) || item.beenToMalariaArea.equals(YesNo.YES)
+                || item.mealOrSnack.equals(YesNo.NO) || item.dangerousOccupation.equals(YesNo.YES) || item.rheumaticFever.equals(YesNo.YES)
+                || item.lungDisease.equals(YesNo.YES) || item.cancer.equals(YesNo.YES) || item.diabetes.equals(YesNo.YES)
+                || item.chronicMedicalCondition.equals(YesNo.YES) || item.beenToDentist.equals(YesNo.YES) || item.takenAntibiotics.equals(YesNo.YES)
+                || item.receivedBloodTransfusion.equals(YesNo.YES)
                 || holder.hivTest.equals(YesNo.YES) || holder.beenTestedForHiv.equals(YesNo.YES) || holder.contactWithPersonWithYellowJaundice.equals(YesNo.YES)
                 || holder.accidentalExposureToBlood.equals(YesNo.YES) || holder.beenTattooedOrPierced.equals(YesNo.YES) || holder.sexWithSomeoneWithUnknownBackground.equals(YesNo.YES)
                 || holder.exchangedMoneyForSex.equals(YesNo.YES) || holder.trueForSexPartner.equals(YesNo.YES) || holder.sufferedFromSTD.equals(YesNo.YES) || holder.contactWithPersonWithHepatitisB.equals(YesNo.YES)
-                || holder.sufferedFromNightSweats.equals(YesNo.YES) || holder.victimOfSexualAbuse.equals(YesNo.YES)) {
+                || holder.sufferedFromNightSweats.equals(YesNo.YES) || holder.victimOfSexualAbuse.equals(YesNo.YES)){
             Intent intent = new Intent(this, AcknowledgeResponsesActivity.class);
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }else{
@@ -136,6 +148,7 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }
@@ -160,5 +173,55 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
             }
         }
         return item;
+    }
+
+    public void saveDonorStep2(){
+        Thread mThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Donor current = Donor.findById(id);
+                List<DonationStats> list = DonationStats.findByDonor(current);
+                DonationStats stats = list.get(0);
+                stats.beenTestedForHiv = holder.beenTestedForHiv;
+                stats.hivTest = holder.hivTest;
+                stats.injectedWithIllegalDrugs = holder.injectedWithIllegalDrugs;
+                stats.exchangedMoneyForSex = holder.exchangedMoneyForSex;
+                stats.sufferedFromSTD = holder.sufferedFromSTD;
+                stats.contactWithPersonWithHepatitisB = holder.contactWithPersonWithHepatitisB;
+                stats.trueForSexPartner = holder.trueForSexPartner;
+                stats.accidentalExposureToBlood = holder.accidentalExposureToBlood;
+                stats.beenTattooedOrPierced = holder.beenTattooedOrPierced;
+                stats.victimOfSexualAbuse = holder.victimOfSexualAbuse;
+                stats.sufferedFromNightSweats = holder.sufferedFromNightSweats;
+                stats.sexWithSomeoneWithUnknownBackground = holder.sexWithSomeoneWithUnknownBackground;
+                stats.contactWithPersonWithYellowJaundice = holder.contactWithPersonWithYellowJaundice;
+                stats.save();
+                current.pushed = 2;
+                current.donateDefer = getCheckedItem();
+                current.donationType = (DonationType) donationType.getSelectedItem();
+                current.save();
+                current.genderValue = current.gender.getName();
+                Log.d("Current", AppUtil.createGson().toJson(current));
+                String result = sendMessage(AppUtil.createGson().toJson(current));
+                //current.localId = result;
+                //current.save();
+                Log.d("Current", AppUtil.createGson().toJson(current));
+                result = sendMessage(AppUtil.createGson().toJson(stats));
+                //stats.localId = result;
+                //stats.save();
+                delete();
+                sendRequestForTodayDonations();
+                Intent intent = new Intent(getApplicationContext(), DonorListActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        mThread.start();
+        try{
+            mThread.join();
+        }catch(InterruptedException ex){
+            ex.printStackTrace();
+        }
+
     }
 }

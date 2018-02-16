@@ -59,7 +59,7 @@ public class SearchDonorListActivity extends BaseActivity implements AdapterView
         }else{
             Intent intent = new Intent(SearchDonorListActivity.this, DonorDetailsActivity.class);
             intent.putExtra("donorNumber", donor.donorNumber);
-            Log.d("Patient", AppUtil.createGson().toJson(donor));
+            intent.putExtra("localId", donor.localId);
             startActivity(intent);
             finish();
         }

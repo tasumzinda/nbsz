@@ -57,12 +57,12 @@ public class Donor extends Model implements Serializable {
     @Column(name = "id_number")
     public String idNumber;
 
+    @Column(name = "gender")
+    public Gender gender;
+
     @Expose
     @SerializedName("gender")
     public String genderValue;
-
-    @Column(name = "gender")
-    public Gender gender;
 
     @Column(name = "date_of_birth")
     public Date dateOfBirth;
@@ -116,6 +116,8 @@ public class Donor extends Model implements Serializable {
     @Column(name = "counsellor")
     public Counsellor counsellor;
 
+    @Expose
+    @Column
     public DonateDefer donateDefer;
 
     public YesNo feelingWellToday;
@@ -219,6 +221,7 @@ public class Donor extends Model implements Serializable {
 
     public String donationNumber;
 
+    @Expose
     @Column
     public Integer pushed = 0;
 
@@ -264,7 +267,7 @@ public class Donor extends Model implements Serializable {
     public List<Offer> offers;
 
     @Expose
-    public String requestType;
+    public String requestType = "POST_DONOR";
 
     public Donor(){
         super();
@@ -280,6 +283,13 @@ public class Donor extends Model implements Serializable {
         return new Select()
                 .from(Donor.class)
                 .where("Id = ?", id)
+                .executeSingle();
+    }
+
+    public static Donor findByLocalId(String localId){
+        return new Select()
+                .from(Donor.class)
+                .where("localId = ?", localId)
                 .executeSingle();
     }
 
@@ -350,12 +360,14 @@ public class Donor extends Model implements Serializable {
             if( ! object.isNull("gender")){
                 if(object.getString("gender").equals("M") || object.getString("gender").equals("F")){
                     item.gender = Gender.valueOf(object.getString("gender"));
+                    Log.d("Gender", item.gender.getName());
                 }
             }
 
             if( ! object.isNull("dob")){
-                item.dateOfBirth = DateUtil.getDateFromString(object.getString("dob"));
-                item.dob = DateUtil.formatDate(item.dateOfBirth);
+                String dob = object.getString("dob");
+                item.dateOfBirth = DateUtil.getFromString(dob);
+                item.dob = dob;
             }
 
             if( ! object.isNull("deferDate")){
@@ -371,9 +383,6 @@ public class Donor extends Model implements Serializable {
             if( ! object.isNull("deferPeriod")){
                 item.deferPeriod = object.getInt("deferPeriod");
             }
-
-
-
             if( ! object.isNull("profession")){
                 JSONObject profession = object.getJSONObject("profession");
                 item.profession = Profession.findById(profession.getLong("id"));
@@ -421,7 +430,19 @@ public class Donor extends Model implements Serializable {
             if( ! object.isNull("id")){
                 item.server_id = object.getLong("id");
             }
-            item.donorNumber = object.getString("donorNumber");
+            if( ! object.isNull("donorNumber")){
+                item.donorNumber = object.getString("donorNumber");
+            }
+            if( ! object.isNull("localId")){
+                item.localId = object.getString("localId");
+            }
+            if( ! object.isNull("pushed")){
+                item.pushed = object.getInt("pushed");
+            }
+            if ( ! object.isNull("donateDefer")){
+                item.donateDefer = DonateDefer.valueOf(object.getString("donateDefer"));
+            }
+
         }catch (JSONException ex){
             ex.printStackTrace();
             return null;

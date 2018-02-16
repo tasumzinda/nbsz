@@ -21,6 +21,7 @@
             app:showAsAction="ifRoom"
             android:icon="@mipmap/ic_list_white"
             android:title="Donor List"/>
+
     <item
             android:id="@+id/action_logout"
             android:orderInCategory="300"

@@ -35,6 +35,7 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
     private TextView numDonations;
     private Donor donor;
     private String donorNumber;
+    private String localId;
     private Donor item;
 
     @Override
@@ -61,7 +62,13 @@ public class DonorDetailsActivity extends BaseActivity implements View.OnClickLi
         notes = (TextView) findViewById(R.id.defer_notes);
         Intent intent = getIntent();
         donorNumber = intent.getStringExtra("donorNumber");
-        donor = Donor.findByDonorNumber(donorNumber);
+        localId = intent.getStringExtra("localId");
+        if(donorNumber != null && ! donorNumber.isEmpty()){
+            donor = Donor.findByDonorNumber(donorNumber);
+        }else{
+            donor = Donor.findByLocalId(localId);
+        }
+
         firstName.setText(donor.firstName);
         surname.setText(donor.surname);
         idNumber.setText(donor.idNumber);

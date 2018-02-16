@@ -38,7 +38,9 @@ public class DonatedBloodActivity extends BaseActivity implements View.OnClickLi
         next.setOnClickListener(this);
         setSupportActionBar(createToolBar("NSBZ - Donor Enrolment"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        for(Donor m : Donor.getAll()){
+            android.util.Log.d("Donor", AppUtil.createGson().toJson(m));
+        }
     }
 
     @Override

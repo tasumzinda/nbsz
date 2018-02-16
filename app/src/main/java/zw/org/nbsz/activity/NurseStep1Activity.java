@@ -38,6 +38,7 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
     @BindView(R.id.blood_pressure_bottom)
     EditText bloodPressureBottom;
     private ListView packType;
+    private Long id;
 
 
     @Override
@@ -46,7 +47,8 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
         setContentView(R.layout.activity_nurse_step1);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        holder = (Donor) intent.getSerializableExtra("holder");
+        id = intent.getLongExtra("id", 0L);
+        holder = Donor.findById(id);
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         packType = (ListView) findViewById(R.id.pack_type);
         next.setOnClickListener(this);
@@ -128,6 +130,7 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
                 intent.putExtra("donorNumber", donorNum);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
 
@@ -138,7 +141,7 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onBackPressed(){
-        if(! weight.getText().toString().isEmpty()){
+        /*if(! weight.getText().toString().isEmpty()){
             holder.weight = Double.parseDouble(weight.getText().toString());
         }
         if(bloodPressureTop != null && bloodPressureBottom != null){
@@ -151,9 +154,12 @@ public class NurseStep1Activity extends BaseActivity implements View.OnClickList
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNum);
+        intent.putExtra("id", id);
+        startActivity(intent);
+        finish();*/
+        Intent intent = new Intent(this, DonorListActivity.class);
         startActivity(intent);
         finish();
-
     }
 
     @Override

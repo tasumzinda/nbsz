@@ -33,5 +33,9 @@ public class DonorSpecialNotesContract extends Model{
                 .execute();
     }
 
-
+    public static List<DonorSpecialNotesContract> getAll(){
+        return new Select()
+                .from(DonorSpecialNotesContract.class)
+                .execute();
+    }
 }

@@ -138,7 +138,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
 
                     }else if(item == null){
                         outcome = sendDonorNumberRequest(donorNumber, item);
-                        if(outcome.equals("Not found")){
+                        if(outcome == null || outcome.equals("Not found")){
                             sendDonorNumberRequestRemote(donorNumber);
                         }
                     }
@@ -156,7 +156,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                         }
                     }else if(item == null){
                         outcome = sendIdNumberRequest(idNumber, item);
-                        if(outcome.equals("Not found")){
+                        if(outcome == null || outcome.equals("Not found")){
                             sendIdNumberRequestRemote(idNumber);
                         }
                     }
@@ -173,6 +173,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                         items = Donor.findByFirstNameAndLastNameAndDateOfBirth(firstName1.toUpperCase(), surname1.toUpperCase(), dob);
                     }
                     if(items.size() > 0){
+                        Log.d("Test", "Inside");
                         Intent intent = new Intent(context, SearchDonorListActivity.class);
                         intent.putExtra("firstName",firstName1.toUpperCase());
                         intent.putExtra("surname", surname1.toUpperCase());
@@ -182,7 +183,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                     }else if(items.size() == 0){
                         String formattedDate = DateUtil.formatDateRest(date);
                         outcome = sendNameDobRequest(firstName1, surname1, formattedDate, items);
-                        if(outcome.equals("Not found")){
+                        if(outcome == null || outcome.equals("Not found")){
                             fetchRemote(this, firstName1, surname1, dob);
                         }
                     }

@@ -2,6 +2,7 @@ package zw.org.nbsz.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,8 +11,12 @@ import android.widget.ListView;
 import it.sephiroth.android.library.widget.HListView;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Counsellor;
+import zw.org.nbsz.business.domain.DonationStats;
 import zw.org.nbsz.business.domain.Donor;
 import zw.org.nbsz.business.domain.util.YesNo;
+import zw.org.nbsz.business.util.AppUtil;
+
+import java.util.List;
 
 public class RiskAssessmentActivity extends BaseActivity implements View.OnClickListener {
 
@@ -24,15 +29,20 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
     private HListView[] fields;
     private String donorNumber;
     private Donor item;
+    private Long id;
+    private DonationStats stats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_risk_assessment);
         Intent intent = getIntent();
-        holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
+        List<DonationStats> list = DonationStats.findByDonor(Donor.findById(id));
+        stats = list.get(0);
+        holder = Donor.findById(id);
         hivTest = (HListView) findViewById(R.id.hiv_test);
         testedPositive = (HListView) findViewById(R.id.tested_positive);
         next = (Button) findViewById(R.id.btn_save);
@@ -96,6 +106,7 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
 
@@ -111,6 +122,7 @@ public class RiskAssessmentActivity extends BaseActivity implements View.OnClick
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }

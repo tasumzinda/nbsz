@@ -2,6 +2,7 @@ package zw.org.nbsz.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.Counsellor;
 import zw.org.nbsz.business.domain.Donor;
 import zw.org.nbsz.business.domain.util.YesNo;
+import zw.org.nbsz.business.util.AppUtil;
 
 public class RiskAssessmentStep3Activity extends BaseActivity implements View.OnClickListener {
 
@@ -25,6 +27,7 @@ public class RiskAssessmentStep3Activity extends BaseActivity implements View.On
     private HListView[] fields;
     private String donorNumber;
     private Donor item;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,10 @@ public class RiskAssessmentStep3Activity extends BaseActivity implements View.On
         setContentView(R.layout.activity_risk_assessment_step3);
         Intent intent = getIntent();
         holder = (Donor) intent.getSerializableExtra("holder");
+        Log.d("Donor", AppUtil.createGson().toJson(holder));
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
         accidentalExposureToBlood = (HListView) findViewById(R.id.accidental_exposure);
         beenTattooedOrPierced = (HListView) findViewById(R.id.been_tattooed);
         victiomOfSexualAbuse = (HListView) findViewById(R.id.victim_of_sexual_abuse);
@@ -116,6 +121,7 @@ public class RiskAssessmentStep3Activity extends BaseActivity implements View.On
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }
@@ -131,6 +137,7 @@ public class RiskAssessmentStep3Activity extends BaseActivity implements View.On
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }

@@ -7,10 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import zw.org.nbsz.R;
-import zw.org.nbsz.business.domain.Counsellor;
-import zw.org.nbsz.business.domain.Donor;
-import zw.org.nbsz.business.domain.util.DonateDefer;
-import zw.org.nbsz.business.domain.util.YesNo;
+import zw.org.nbsz.business.domain.*;
 
 public class UserVerificationActivity extends BaseActivity implements View.OnClickListener {
 
@@ -44,7 +41,8 @@ public class UserVerificationActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         if(validate()){
-            Intent intent = new Intent(this, RiskAssessmentActivity.class);
+            //Intent intent = new Intent(this, RiskAssessmentActivity.class);
+            Intent intent = new Intent(this, DonorListActivity.class);
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);

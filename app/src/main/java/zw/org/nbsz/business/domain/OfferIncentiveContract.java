@@ -33,4 +33,10 @@ public class OfferIncentiveContract extends Model implements Serializable {
                 .where("offer_id = ?", offer.getId())
                 .execute();
     }
+
+    public static List<OfferIncentiveContract> getAll(){
+        return new Select()
+                .from(OfferIncentiveContract.class)
+                .execute();
+    }
 }

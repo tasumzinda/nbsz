@@ -57,7 +57,7 @@ public class DownloadDonor extends IntentService {
                 Donor duplicate = Donor.findByDonorNumber(item.donorNumber);
                 if(duplicate == null){
                     item.save();
-                    Log.d("Donor", item.firstName + " " + item.surname + " " + item.donorNumber);
+                    Log.d("Donor", item.firstName + " " + item.surname + " " + item.dateOfBirth);
                 }
             }
         }catch (JSONException ex){

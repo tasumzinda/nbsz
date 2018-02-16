@@ -25,13 +25,15 @@ public class DeferStep1 extends BaseActivity implements View.OnClickListener {
     private String donorNumber;
     private Donor item;
     private EditText deferNotes;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_defer_step1);
         Intent intent = getIntent();
-        holder = (Donor) intent.getSerializableExtra("holder");
+        id = intent.getLongExtra("id", 0L);
+        holder = Donor.findById(id);
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
         deferPeriod = (EditText) findViewById(R.id.defer_period);
@@ -86,6 +88,7 @@ public class DeferStep1 extends BaseActivity implements View.OnClickListener {
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }
@@ -119,6 +122,7 @@ public class DeferStep1 extends BaseActivity implements View.OnClickListener {
         intent.putExtra("holder", holder);
         intent.putExtra("counsellor", counsellor);
         intent.putExtra("donorNumber", donorNumber);
+        intent.putExtra("id", id);
         startActivity(intent);
         finish();
     }

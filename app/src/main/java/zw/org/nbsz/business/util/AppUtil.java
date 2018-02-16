@@ -37,7 +37,7 @@ public class AppUtil {
     public static String LOGGED_IN = "LOGGED_IN";
     public static String USERNAME = "USERNAME";
     public static String PASSWORD = "PASSWORD";
-    public static String BASE_URL = "http://192.168.43.234:8084/nbsz-mobile/rest/mobile/";
+    public static String BASE_URL = "http://192.168.1.172:8084/nbsz-mobile/rest/mobile/";
     //public static String BASE_URL = "http://196.2.73.10:8084/nbsz-mobile/rest/mobile/";
     public static String NAME = "NAME";
     private static AppUtil appInstance;
@@ -93,7 +93,7 @@ public class AppUtil {
 
     public static Gson createGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setDateFormat("dd/MM/yyyy").serializeNulls().create();
+        gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().setDateFormat("dd-MM-yyyy").serializeNulls().create();
         return gson;
     }
 
@@ -300,8 +300,8 @@ public class AppUtil {
     }
 
     public static OkHttpClient connectionSettings(OkHttpClient client) {
-        client.setConnectTimeout(3, TimeUnit.MINUTES);
-        client.setReadTimeout(15, TimeUnit.MINUTES);
+        client.setConnectTimeout(30, TimeUnit.SECONDS);
+        client.setReadTimeout(1, TimeUnit.MINUTES);
         client.setWriteTimeout(30, TimeUnit.SECONDS);
         return client;
     }

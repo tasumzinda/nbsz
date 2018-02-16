@@ -1,6 +1,5 @@
 package zw.org.nbsz.activity;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -35,10 +34,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -47,6 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     public Toolbar toolbar;
     ProgressDialog progressDialog;
     String result;
+    MenuItem miActionProgressItem;
 
 
     public Toolbar createToolBar(String title) {
@@ -299,8 +296,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public String sendMessage(final String msg) {
-
-        final Handler handler = new Handler();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -311,25 +306,15 @@ public class BaseActivity extends AppCompatActivity {
                     Socket s = openSocket();
                     OutputStream out = s.getOutputStream();
                     PrintWriter output = new PrintWriter(out);
-                    JSONObject object = new JSONObject(msg);
-                    String requestType = object.getString("requestType");
                     output.println(msg);
-                    //output.write("\r\n");
                     output.flush();
                     BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
                     String st = input.readLine();
                     result = st;
-                    /*JSONObject donor = null;
-                    Donor item = null;
-                    if(requestType.equals("donorNumber")){
-                        donor = new JSONObject(st);
-                        item = Donor.fromJSON(donor);
-                        Log.d("Donor", AppUtil.createGson().toJson(item));
-                    }*/
                     output.close();
                     out.close();
                     s.close();
-                } catch (IOException | JSONException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -345,7 +330,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public Socket openSocket() throws IOException{
-        InetAddress address = InetAddress.getByName("192.168.43.116");
+        InetAddress address = InetAddress.getByName("192.168.1.140");
         Socket s = new Socket(address, 8080);
         return s;
     }
@@ -360,10 +345,13 @@ public class BaseActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
         result = sendMessage(object.toString());
-        if( ! result.equals("Not found")){
+        if(result != null && !result.equals("Not found")){
             try{
                 item = Donor.fromJSON(new JSONObject(result));
                 item.save();
+                result = sendRequestForDonations(item.localId, item);
+                result = sendRequestForOffers(item.localId, item);
+                result = sendRequestForDonationStats(item.localId, item);
                 Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
                 intent.putExtra("donorNumber", item.donorNumber);
                 startActivity(intent);
@@ -422,11 +410,13 @@ public class BaseActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
         result = sendMessage(object.toString());
-        Log.d("Result", result);
-        if( ! result.equals("Not found")){
+        if(result != null && !result.equals("Not found")){
             try{
                 item = Donor.fromJSON(new JSONObject(result));
                 item.save();
+                result = sendRequestForDonations(item.localId, item);
+                result = sendRequestForOffers(item.localId, item);
+                result = sendRequestForDonationStats(item.localId, item);
                 Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
                 intent.putExtra("donorNumber", item.donorNumber);
                 startActivity(intent);
@@ -478,6 +468,8 @@ public class BaseActivity extends AppCompatActivity {
     public String sendNameDobRequest(String firstName, String surname, String dob, List<Donor> items) {
         JSONObject object = null;
         Log.d("DOB", dob);
+        Date date = DateUtil.getDateFromString(dob);
+        String formattedDate = DateUtil.formatDate(date);
         try {
             object = new JSONObject();
             object.put("requestType", "nameDob");
@@ -489,18 +481,19 @@ public class BaseActivity extends AppCompatActivity {
         }
         result = sendMessage(object.toString());
         Log.d("Result", result);
-        if (!result.equals("Not found")) {
+        if (result != null && !result.equals("Not found")) {
             try {
                 items = Donor.fromJSON(new JSONArray(result));
                 if (items.size() > 0) {
                     for(Donor item : items){
                         item.save();
+                        result = sendRequestForDonations(item.localId, item);
+                        result = sendRequestForOffers(item.localId, item);
+                        result = sendRequestForDonationStats(item.localId, item);
                     }
                     Intent intent = new Intent(context, SearchDonorListActivity.class);
                     intent.putExtra("firstName", firstName.toUpperCase());
                     intent.putExtra("surname", surname.toUpperCase());
-                    Date date = DateUtil.getDateFromString(dob);
-                    String formattedDate = DateUtil.formatDate(date);
                     intent.putExtra("dob", formattedDate);
                     startActivity(intent);
                     finish();
@@ -511,4 +504,155 @@ public class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
+
+    public String sendRequestForDonations(String localId, Donor donor) {
+        JSONObject object = null;
+        try {
+            object = new JSONObject();
+            object.put("requestType", "donations");
+            object.put("localId", localId);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        if (result != null && !result.equals("Not found")) {
+            try {
+                List<Donation> items = Donation.fromJSON(new JSONArray(result));
+                if (items.size() > 0) {
+                    for(Donation item : items){
+                        item.save();
+                        item.person = donor;
+                        Log.d("Saved donation", AppUtil.createGson().toJson(item));
+                    }
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public String sendRequestForOffers(String localId, Donor donor) {
+        JSONObject object = null;
+        try {
+            object = new JSONObject();
+            object.put("requestType", "offers");
+            object.put("localId", localId);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        if (result != null && !result.equals("Not found")) {
+            try {
+                List<Offer> items = Offer.fromJSON(new JSONArray(result));
+                if (items.size() > 0) {
+                    for(Offer item : items){
+                        List<Incentive> incentives = item.incentives;
+                        item.person = donor;
+                        item.save();
+                        Log.d("Saved offer", AppUtil.createGson().toJson(item));
+                        for(Incentive m : incentives){
+                            OfferIncentiveContract contract = new OfferIncentiveContract();
+                            contract.incentive = m;
+                            contract.offer = item;
+                            contract.save();
+                            Log.d("Saved contract", AppUtil.createGson().toJson(m));
+                        }
+                    }
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public String sendRequestForDonationStats(String localId, Donor donor) {
+        JSONObject object = null;
+        try {
+            object = new JSONObject();
+            object.put("requestType", "donationStats");
+            object.put("localId", localId);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        if (result != null && !result.equals("Not found")) {
+            try {
+                List<DonationStats> items = DonationStats.fromJSON(new JSONArray(result));
+                if (items.size() > 0) {
+                    for(DonationStats item : items){
+                        item.person = donor;
+                        item.save();
+                        Log.d("Saved stats", AppUtil.createGson().toJson(item));
+                    }
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public String sendRequestForTodayDonations() {
+        JSONObject object = null;
+        try {
+            object = new JSONObject();
+            object.put("requestType", "todayDonations");
+            object.put("date", DateUtil.getStringFromDate(new Date()));
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        result = sendMessage(object.toString());
+        Log.d("Result", result);
+        if (result != null && !result.equals("Not found")) {
+            List<Donor> items = new ArrayList<>();
+            try {
+                items = Donor.fromJSON(new JSONArray(result));
+                if (items.size() > 0) {
+                    for(Donor item : items){
+                        item.save();
+                        Log.d("Saved donor", AppUtil.createGson().toJson(item));
+                        result = sendRequestForDonations(item.localId, item);
+                        result = sendRequestForOffers(item.localId, item);
+                        result = sendRequestForDonationStats(item.localId, item);
+                    }
+                    Intent intent = new Intent(context, DonorListActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public void delete(){
+        for(DonationStats stat : DonationStats.getAll()){
+            stat.delete();
+            android.util.Log.d("Deleted stat", AppUtil.createGson().toJson(stat));
+        }
+        for(Donation stat : Donation.getAll()){
+            stat.delete();
+            android.util.Log.d("Deleted donation", AppUtil.createGson().toJson(stat));
+        }
+        for(OfferIncentiveContract contract : OfferIncentiveContract.getAll()){
+            contract.delete();
+            android.util.Log.d("Deleted contract", AppUtil.createGson().toJson(contract));
+        }
+        for(Offer m : Offer.getAll()){
+            m.delete();
+            android.util.Log.d("Deleted offer", AppUtil.createGson().toJson(m));
+        }
+        for(DonorSpecialNotesContract contract : DonorSpecialNotesContract.getAll()){
+            contract.delete();
+            android.util.Log.d("Deleted contract", AppUtil.createGson().toJson(contract));
+        }
+        for(Donor donor : Donor.findTodayDonations(DateUtil.getStringFromDate(new Date()))){
+            donor.delete();
+            android.util.Log.d("Deleted donor", AppUtil.createGson().toJson(donor));
+        }
+    }
+
 }

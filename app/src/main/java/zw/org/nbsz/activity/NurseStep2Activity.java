@@ -36,6 +36,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
     private TextView hamocueLabel;
     @BindView(R.id.donor_number)
     EditText donationNumber;
+    private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
         holder = (Donor) intent.getSerializableExtra("holder");
         counsellor = (Counsellor) intent.getSerializableExtra("counsellor");
         donorNumber = intent.getStringExtra("donorNumber");
+        id = intent.getLongExtra("id", 0L);
         hamocue = (ListView) findViewById(R.id.hamocue);
         hamocueLabel = (TextView) findViewById(R.id.hamocue_label);
         bledBy = (ListView) findViewById(R.id.bled_by);
@@ -142,6 +144,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
                 intent.putExtra("holder", holder);
                 intent.putExtra("counsellor", counsellor);
                 intent.putExtra("donorNumber", donorNumber);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }
@@ -164,6 +167,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }else{
@@ -171,6 +175,7 @@ public class NurseStep2Activity extends BaseActivity implements View.OnClickList
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }

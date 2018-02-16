@@ -112,7 +112,7 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
                     }else if(list.size() == 0){
                         String formattedDate = DateUtil.formatDateRest(DateUtil.getDateFromString(date));
                         outcome = sendNameDobRequest(name, lastName, formattedDate, list);
-                        if(outcome.equals("Not found")){
+                        if(outcome == null || outcome.equals("Not found")){
                             Log.d("Test", "Inside fetch remote");
                             fetchRemote(this, name, lastName, dob);
                         }
@@ -373,7 +373,7 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
                 return params;
             }
         };
-        request.setRetryPolicy(new DefaultRetryPolicy(5000, 3, 2.0F));
+        //request.setRetryPolicy(new DefaultRetryPolicy(5000, 3, 2.0F));
         AppUtil.getInstance(context).addToRequestQueue(request);
     }
 }

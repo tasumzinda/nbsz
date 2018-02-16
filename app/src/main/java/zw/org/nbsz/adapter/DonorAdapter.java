@@ -44,7 +44,6 @@ public class DonorAdapter extends ArrayAdapter<Donor> {
         address = (TextView) newView.findViewById(R.id.address);
         donorNumber = (TextView) newView.findViewById(R.id.donorNumber);
         Donor donor = list.get(pos);
-        Log.d("Donor", AppUtil.createGson().toJson(donor));
         name.setText(pos + 1 + "." + donor.toString());
         dob.setText(donor.dob != null ? donor.dob : "");
         donorNumber.setText(donor.donorNumber != null ? donor.donorNumber : "");
