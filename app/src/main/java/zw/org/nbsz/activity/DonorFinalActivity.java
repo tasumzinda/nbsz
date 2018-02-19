@@ -274,13 +274,13 @@ public class DonorFinalActivity extends BaseActivity implements View.OnClickList
                     progressDialog.dismiss();
                 }
             }
-            Intent intent = new Intent(getApplicationContext(), DonatedBloodActivity.class);
+            /*Intent intent = new Intent(getApplicationContext(), DonatedBloodActivity.class);
             //Intent intent = new Intent(getApplicationContext(), UserVerificationActivity.class);
             intent.putExtra("holder", holder);
             intent.putExtra("counsellor", counsellor);
             intent.putExtra("donorNumber", donorNumber);
             startActivity(intent);
-            finish();
+            finish();*/
         }
     }
 }

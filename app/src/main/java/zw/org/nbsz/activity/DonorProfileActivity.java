@@ -1,7 +1,9 @@
 package zw.org.nbsz.activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuItem;
@@ -16,10 +18,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import zw.org.nbsz.R;
 import zw.org.nbsz.business.domain.*;
+import zw.org.nbsz.business.domain.util.DonateDefer;
 import zw.org.nbsz.business.domain.util.Gender;
 import zw.org.nbsz.business.util.AppUtil;
 import zw.org.nbsz.business.util.DateUtil;
 import zw.org.nbsz.business.util.Log;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DonorProfileActivity extends BaseActivity implements View.OnClickListener{
@@ -375,5 +380,43 @@ public class DonorProfileActivity extends BaseActivity implements View.OnClickLi
         };
         //request.setRetryPolicy(new DefaultRetryPolicy(5000, 3, 2.0F));
         AppUtil.getInstance(context).addToRequestQueue(request);
+    }
+    private class SendDataAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(DonorProfileActivity.this, "Please wait...", "Syncing wth server", true);
+            progressDialog.setCancelable(false);
+        }
+        public String outcome;
+        public String name = firstName.getText().toString().toUpperCase();
+        public String lastName = surname.getText().toString().toUpperCase();
+        String dob = dateOfBirth.getText().toString();
+        List<Donor> list = new ArrayList<>();
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            String formattedDate = DateUtil.formatDateRest(DateUtil.getDateFromString(dob));
+            outcome = sendNameDobRequest(name, lastName, formattedDate, list);
+            if(outcome == null || outcome.equals("Not found")){
+                Log.d("Test", "Inside fetch remote");
+                fetchRemote(DonorProfileActivity.this, name, lastName, dob);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog != null){
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+            Intent intent = new Intent(getApplicationContext(), DonatedBloodActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
