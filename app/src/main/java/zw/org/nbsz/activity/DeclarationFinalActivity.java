@@ -1,6 +1,8 @@
 package zw.org.nbsz.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,15 +10,15 @@ import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import zw.org.nbsz.R;
-import zw.org.nbsz.business.domain.Counsellor;
-import zw.org.nbsz.business.domain.DonationStats;
-import zw.org.nbsz.business.domain.DonationType;
-import zw.org.nbsz.business.domain.Donor;
+import zw.org.nbsz.business.domain.*;
 import zw.org.nbsz.business.domain.util.DonateDefer;
 import zw.org.nbsz.business.domain.util.YesNo;
 import zw.org.nbsz.business.util.AppUtil;
+import zw.org.nbsz.business.util.DateUtil;
 import zw.org.nbsz.business.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DeclarationFinalActivity extends BaseActivity implements View.OnClickListener {
@@ -98,7 +100,8 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
         if(donate.getCheckedItemCount() != 0){
             //holder.donateDefer = getCheckedItem();
             //holder.donationTypeId = ((DonationType) donationType.getSelectedItem()).serverId;
-            saveDonorStep2();
+            //saveDonorStep2();
+            new SendDataAsync().execute();
             /*if(holder.donateDefer.equals(DonateDefer.DEFER)){
                 Intent intent = new Intent(this, DeferStep1.class);
                 intent.putExtra("holder", holder);
@@ -223,5 +226,64 @@ public class DeclarationFinalActivity extends BaseActivity implements View.OnCli
             ex.printStackTrace();
         }
 
+    }
+
+    private class SendDataAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(DeclarationFinalActivity.this, "Please wait...", "Syncing wth server", true);
+            progressDialog.setCancelable(false);
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Donor current = Donor.findById(id);
+            List<DonationStats> list = DonationStats.findByDonor(current);
+            DonationStats stats = list.get(0);
+            stats.beenTestedForHiv = holder.beenTestedForHiv;
+            stats.hivTest = holder.hivTest;
+            stats.injectedWithIllegalDrugs = holder.injectedWithIllegalDrugs;
+            stats.exchangedMoneyForSex = holder.exchangedMoneyForSex;
+            stats.sufferedFromSTD = holder.sufferedFromSTD;
+            stats.contactWithPersonWithHepatitisB = holder.contactWithPersonWithHepatitisB;
+            stats.trueForSexPartner = holder.trueForSexPartner;
+            stats.accidentalExposureToBlood = holder.accidentalExposureToBlood;
+            stats.beenTattooedOrPierced = holder.beenTattooedOrPierced;
+            stats.victimOfSexualAbuse = holder.victimOfSexualAbuse;
+            stats.sufferedFromNightSweats = holder.sufferedFromNightSweats;
+            stats.sexWithSomeoneWithUnknownBackground = holder.sexWithSomeoneWithUnknownBackground;
+            stats.contactWithPersonWithYellowJaundice = holder.contactWithPersonWithYellowJaundice;
+            stats.save();
+            current.pushed = 2;
+            current.donateDefer = getCheckedItem();
+            current.donationType = (DonationType) donationType.getSelectedItem();
+            current.save();
+            current.genderValue = current.gender.getName();
+            Log.d("Current", AppUtil.createGson().toJson(current));
+            String result = sendMessage(AppUtil.createGson().toJson(current));
+            //current.localId = result;
+            //current.save();
+            Log.d("Current", AppUtil.createGson().toJson(current));
+            result = sendMessage(AppUtil.createGson().toJson(stats));
+            //stats.localId = result;
+            //stats.save();
+            delete();
+            sendRequestForTodayDonations();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog != null){
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+            Intent intent = new Intent(getApplicationContext(), DonorListActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
