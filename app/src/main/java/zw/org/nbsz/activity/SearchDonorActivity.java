@@ -181,8 +181,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                         startActivity(intent);
                         finish();
                     }else if(items.size() == 0){
-                        String formattedDate = DateUtil.formatDateRest(date);
-                        outcome = sendNameDobRequest(firstName1, surname1, formattedDate, items);
+                        outcome = sendNameDobRequest(firstName1, surname1, dob, items);
                         if(outcome == null || outcome.equals("Not found")){
                             fetchRemote(this, firstName1, surname1, dob);
                         }
@@ -294,7 +293,7 @@ public class SearchDonorActivity extends BaseActivity implements View.OnClickLis
                                         item.gender = Gender.valueOf(object.getString("gender"));
                                     }
                                     if( ! object.isNull("dob")){
-                                        item.dateOfBirth = DateUtil.getDateFromString(object.getString("dob"));
+                                        item.dateOfBirth = DateUtil.getFromString(object.getString("dob"));
                                         item.dob = DateUtil.formatDate(item.dateOfBirth);
                                     }
 

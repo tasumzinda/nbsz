@@ -84,10 +84,7 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         if(finalized.isChecked()){
             saveFinalStage();
-            AppUtil.createShortNotification(this, "Donor successfully saved!");
-            Intent intent = new Intent(this, DonatedBloodActivity.class);
-            startActivity(intent);
-            finish();
+
         }else{
             AppUtil.createShortNotification(this, "Please mark form as finalized before saving it");
         }
@@ -435,6 +432,10 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
                 delete();
                 sendRequestForTodayDonations();
                 progressDialog.dismiss();
+                AppUtil.createShortNotification(getApplicationContext(), "Donor successfully saved!");
+                Intent intent = new Intent(getApplicationContext(), DonatedBloodActivity.class);
+                startActivity(intent);
+                finish();
             }
         };
         mThread.start();

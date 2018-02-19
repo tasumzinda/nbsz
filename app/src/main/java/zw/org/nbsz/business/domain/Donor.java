@@ -403,16 +403,28 @@ public class Donor extends Model implements Serializable {
             if( ! object.isNull("counsellor")){
                 JSONObject counsellor = object.getJSONObject("counsellor");
                 Counsellor c = new Counsellor();
-                c.name = counsellor.getString("name");
-                c.address = counsellor.getString("address");
-                c.phoneNumber = counsellor.getString("phoneNumber");
-                c.code = counsellor.getString("code");
-                c.serverId = counsellor.getLong("id");
-                Counsellor duplicate = Counsellor.findById(c.serverId);
+                if( ! counsellor.isNull("name")){
+                    c.name = counsellor.getString("name");
+                }
+                if( ! counsellor.isNull("address")){
+                    c.address = counsellor.getString("address");
+                }
+                if( ! counsellor.isNull("phoneNumber")){
+                    c.phoneNumber = counsellor.getString("phoneNumber");
+                }
+                if( ! counsellor.isNull("code")){
+                    c.code = counsellor.getString("code");
+                }
+                Counsellor duplicate = null;
+                if( ! counsellor.isNull("id")){
+                    c.serverId = counsellor.getLong("id");
+                    duplicate = Counsellor.findById(c.serverId);
+                }
+
                 if(duplicate == null){
                     c.save();
                 }
-                Log.d("Saved counsellor", c.name);
+                android.util.Log.d("Saved counsellor", c.name);
                 item.counsellor = c;
             }
             if( ! object.isNull("deferredReason")){

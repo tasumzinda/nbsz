@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -37,7 +38,8 @@ public class AppUtil {
     public static String LOGGED_IN = "LOGGED_IN";
     public static String USERNAME = "USERNAME";
     public static String PASSWORD = "PASSWORD";
-    public static String BASE_URL = "http://192.168.1.172:8084/nbsz-mobile/rest/mobile/";
+    public static String LOCAL_URL = "";
+    public static String BASE_URL = "http://192.168.43.234:8084/nbsz-mobile/rest/mobile/";
     //public static String BASE_URL = "http://196.2.73.10:8084/nbsz-mobile/rest/mobile/";
     public static String NAME = "NAME";
     private static AppUtil appInstance;
@@ -69,6 +71,16 @@ public class AppUtil {
                     if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
+        }
+        return false;
+    }
+
+    public static boolean isConnectedInWifi(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected()
+                && wifiManager.isWifiEnabled() && networkInfo.getTypeName().equals("WIFI")) {
+            return true;
         }
         return false;
     }
@@ -131,6 +143,11 @@ public class AppUtil {
     public static String getPassword(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(PASSWORD, "PASSWORD");
+    }
+
+    public static String getLocalUrl(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(LOCAL_URL, "");
     }
 
     public static String getBaseUrl(Context context){

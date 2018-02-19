@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_top"
                     android:textSize="14dp"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/acknowledge"/>
             <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_save"

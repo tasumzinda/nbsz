@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:background="@color/colorPrimary">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+            android:id="@+id/log_in_views_container"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+        <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="40dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/logo" />
+
+        <EditText
+                android:id="@+id/url"
+                android:layout_width="match_parent"
+                android:background="@drawable/text_box"
+                android:layout_height="40dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:hint="URL"
+                android:inputType="text"
+                android:paddingLeft="6dp"
+                android:singleLine="true" />
+
+        <Button
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/button"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Save" />
+
+
+
+    </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

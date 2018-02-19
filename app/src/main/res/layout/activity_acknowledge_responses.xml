@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/feeling_well_today"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -40,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/refused_to_donate"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -53,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/been_to_a_malaria_area"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -66,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/meal_or_snack"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -79,6 +83,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/dangerous_occupation"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -92,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/rheumatic_fever"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -105,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/lung_disease"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -118,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/cancer"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -131,6 +139,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/diabetes"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -144,6 +153,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/chronic_medical_condition"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -157,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/been_to_dentist"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -170,6 +181,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/taken_antibiotics"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -183,6 +195,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/injection"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -196,6 +209,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/been_ill"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -209,6 +223,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/received_blood_transfusion"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -222,6 +237,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/suffered_from_malaria"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -235,6 +251,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/yellow_jaundice"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -248,6 +265,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/hiv_test"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -261,6 +279,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/been_tested_for_hiv"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -274,6 +293,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/contact_yellow_jaundice"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -287,6 +307,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/accidental_exposure"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -300,6 +321,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/been_tattooed"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -313,6 +335,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/illegal_drugs"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -326,6 +349,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/sex_with_unknown_person"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -339,6 +363,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/exchanged_money_for_sex"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -352,6 +377,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/true_for_sex_partner"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -365,6 +391,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/suffered_from_std"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -378,6 +405,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/change_in_marital_status"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -391,6 +419,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/suffered_from_night_sweats"/>
             <TextView
                     style="@style/TextViewInfo"
@@ -404,6 +433,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size"
                     android:visibility="gone"
+                    android:button="@drawable/check_box_selector"
                     android:id="@+id/victim_of_sexual_abuse"/>
             <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_save"

@@ -53,7 +53,7 @@
             <EditText
                     android:id="@+id/id_number"
                     android:inputType="text"
-                    android:hint="Please enter ID Number in the format: 05-141467-H74"
+                    android:hint="Please enter ID Number in the format: 05-141467H74"
                     style="@style/TextBoxStyle"/>
             <TextView
                     android:layout_width="match_parent"

@@ -95,11 +95,17 @@ public class BaseActivity extends AppCompatActivity {
             return true;
         }*/
         if (id == R.id.action_refresh) {
-            syncAppData();
+            syncLocal();
             return true;
         }
         if (id == R.id.action_list) {
             intent = new Intent(context, DonorListActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        if( id == R.id.action_config){
+            intent = new Intent(context, UrlConfigActivity.class);
             startActivity(intent);
             finish();
         }
@@ -219,6 +225,20 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void syncLocal() {
+        if (AppUtil.isNetworkAvailable(context)) {
+            progressDialog = ProgressDialog.show(this, "Please wait", "Syncing with Server...", true);
+            progressDialog.setCancelable(false);
+            delete();
+            sendRequestForTodayDonations();
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        } else {
+            AppUtil.createShortNotification(this, "No Internet, Check Connectivity!");
+        }
+    }
+
     public void downloadDonors() {
         if (AppUtil.isNetworkAvailable(context)) {
             progressDialog = ProgressDialog.show(this, "Please wait", "Downloading donor data...", true);
@@ -330,7 +350,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public Socket openSocket() throws IOException{
-        InetAddress address = InetAddress.getByName("192.168.1.140");
+        InetAddress address = InetAddress.getByName(AppUtil.getLocalUrl(this));
         Socket s = new Socket(address, 8080);
         return s;
     }
@@ -419,6 +439,7 @@ public class BaseActivity extends AppCompatActivity {
                 result = sendRequestForDonationStats(item.localId, item);
                 Intent intent = new Intent(getApplicationContext(), DonorDetailsActivity.class);
                 intent.putExtra("donorNumber", item.donorNumber);
+                intent.putExtra("localId", item.localId);
                 startActivity(intent);
                 finish();
             }catch(JSONException ex){
@@ -467,9 +488,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public String sendNameDobRequest(String firstName, String surname, String dob, List<Donor> items) {
         JSONObject object = null;
-        Log.d("DOB", dob);
-        Date date = DateUtil.getDateFromString(dob);
-        String formattedDate = DateUtil.formatDate(date);
         try {
             object = new JSONObject();
             object.put("requestType", "nameDob");
@@ -494,7 +512,7 @@ public class BaseActivity extends AppCompatActivity {
                     Intent intent = new Intent(context, SearchDonorListActivity.class);
                     intent.putExtra("firstName", firstName.toUpperCase());
                     intent.putExtra("surname", surname.toUpperCase());
-                    intent.putExtra("dob", formattedDate);
+                    intent.putExtra("dob", dob);
                     startActivity(intent);
                     finish();
                 }
