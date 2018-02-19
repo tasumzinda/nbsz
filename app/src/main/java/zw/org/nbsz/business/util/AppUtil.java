@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -14,8 +13,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.*;
-import zw.org.nbsz.activity.ConsentToUpdateDetailsActivity;
-import zw.org.nbsz.business.domain.Centre;
 import zw.org.nbsz.business.domain.CollectSite;
 import zw.org.nbsz.business.domain.User;
 
@@ -28,7 +25,6 @@ import java.security.cert.CertificateException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 /**
  * Created by tasu on 5/4/17.
  */
@@ -81,7 +77,7 @@ public class AppUtil {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public static void createSnackBarShort(View view, String mgs) {
+    /*public static void createSnackBarShort(View view, String mgs) {
         Snackbar.make(view, mgs, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
@@ -89,7 +85,7 @@ public class AppUtil {
     public static void createSnackBarLong(View view, String mgs) {
         Snackbar.make(view, mgs, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-    }
+    }*/
 
     public static Gson createGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
