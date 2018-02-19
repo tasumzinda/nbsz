@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
@@ -83,7 +84,7 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if(finalized.isChecked()){
-            saveFinalStage();
+            new SendDataAsync().execute();
 
         }else{
             AppUtil.createShortNotification(this, "Please mark form as finalized before saving it");
@@ -499,5 +500,130 @@ public class NurseFinalActivity extends BaseActivity implements View.OnClickList
             }
         }
         return a;
+    }
+    private class SendDataAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(NurseFinalActivity.this, "Please wait...", "Syncing wth server", true);
+            progressDialog.setCancelable(false);
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Donor current = Donor.findById(id);
+            List<DonationStats> list = DonationStats.findByDonor(current);
+            DonationStats stats = list.get(0);
+            stats.weight = holder.weight;
+            stats.copperSulphate = holder.copperSulphate;
+            stats.packType = holder.packType;
+            stats.bloodPressure = holder.bloodPressure;
+            stats.reasonForTesting = holder.reasonForTesting;
+            stats.hamocue = holder.hamocue;
+            stats.entry = DateUtil.getStringFromDate(new Date());
+            if(holder.pregnant != null){
+                stats.pregnant = holder.pregnant;
+            }
+            if(holder.breastFeeding != null){
+                stats.breastFeeding = holder.breastFeeding;
+            }
+            stats.save();
+            Donation d = null;
+            if(current.donateDefer.equals(DonateDefer.DONATE)){
+                d = new Donation();
+                d.date = new Date();
+                d.donationType = current.donationType;
+                d.person = current;
+                d.timDonation = current.entryTime;
+                d.donationNumber = holder.donationNumber;
+                if(holder.dateOfBirth != null){
+                    d.donorAge = DateUtil.getYears(holder.dateOfBirth);
+                }
+                d.city = CollectSite.findByActive().centre;
+                d.save();
+            }
+            Offer offer = new Offer();
+            offer.offerDate = new Date();
+            offer.person = current;
+            offer.centre = CollectSite.findByActive().centre;
+            offer.collectSite = CollectSite.findByActive();
+            if(current.donationType != null){
+                offer.donationType = current.donationType;
+                offer.donationKind = "D";
+                offer.donationNumber = holder.donationNumber;
+            }
+            offer.checkUp = "A";
+            offer.directed = "N";
+            if(current.donateDefer != null && current.donateDefer.equals(DonateDefer.DEFER)){
+                if(current.defferedReasonId != null){
+                    offer.defferredReason = DeferredReason.findById(holder.defferedReasonId);
+                }
+                offer.deferDate = new Date();
+            }
+            if(current.dateOfBirth != null){
+                offer.donorAge = DateUtil.getYears(current.dateOfBirth);
+            }
+            offer.phlebotomy = "Y";
+            if(holder.userId != null){
+                offer.user = User.findById(holder.userId);
+            }
+            offer.pulse = holder.pulse;
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            offer.offerTime = sdf.format(Long.valueOf(System.currentTimeMillis()));
+            offer.save();
+            for(int i = 0; i < getIncentives().size(); i++){
+                OfferIncentiveContract contract = new OfferIncentiveContract();
+                contract.incentive = Incentive.findById((getIncentives().get(i)));
+                contract.offer = offer;
+                contract.save();
+            }
+            if(holder.userId != null){
+                current.bledBy = User.findById(holder.userId);
+            }
+            if(current.donateDefer != null && current.donateDefer.equals(DonateDefer.DEFER)){
+                if(holder.defferedReasonId != null){
+                    current.deferredReason = DeferredReason.findById(holder.defferedReasonId);
+                }
+                if(holder.deferNotes != null){
+                    current.deferNotes = holder.deferNotes;
+                }
+                current.deferPeriod = holder.deferPeriod;
+                current.deferDate = DateUtil.getStringFromDate(new Date());
+                current.accepted = "T";
+            }else{
+                current.accepted = "A";
+            }
+            current.pushed = 3;
+            current.save();
+            current.genderValue = current.gender.getName();
+            sendMessage(AppUtil.createGson().toJson(current));
+            result = sendMessage(AppUtil.createGson().toJson(stats));
+            if(d != null){
+                d.donationDate = DateUtil.getStringFromDate(d.date);
+            }
+            result = sendMessage(AppUtil.createGson().toJson(d));
+            offer.offer = DateUtil.getStringFromDate(offer.offerDate);
+            if(offer.deferDate != null){
+                offer.defer = DateUtil.getStringFromDate(offer.deferDate);
+            }
+            offer.incentives = Incentive.findByOffer(offer);
+            result = sendMessage(AppUtil.createGson().toJson(offer));
+            delete();
+            sendRequestForTodayDonations();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(progressDialog != null){
+                if(progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }
+            Intent intent = new Intent(getApplicationContext(), DonatedBloodActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }
